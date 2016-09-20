@@ -13,7 +13,7 @@ In my spare time, I like playing ***table tennis***, ***swimming***, and ***trav
 ## Report my process
 - Step 1
 
-I edited this README.md through the browser at github.com first. I added a brief self-introduction, a link to STAT545 webpage, and a picture of a lovely cat to it. And then I formatted this **README** file by refering to the sample readme file  and its raw source. For example, I made some words or phrases bold or italic and 
+I edited this README.md through the browser at github.com first. I added a brief self-introduction, a link to STAT545 webpage, and a picture of a lovely cat to it. And then I formatted this README file by refering to the sample readme file  and its raw source. For example, I made some words or phrases bold or italic and 
 also highlighted the section headers. After editing the file, I entered the commit title and its description and clicked on the "commit changes" button to commit my update.
 - Step 2
 
