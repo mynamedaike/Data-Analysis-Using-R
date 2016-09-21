@@ -26,4 +26,4 @@ After editting README.md file, I tried to extend the R markdown document. As I h
 
 - Problems
 
-Initially, when I tried to create a project by version control, it does not work. And then I asked one of the TAS for this course. He helped me solve this problem. For the first clone, I have to execute it in the shell using the command *git clone url*.
+Initially, when I tried to create a project by version control, it does not work. And then I asked one of the TAS for this course. He helped me solve this problem. For the first clone, I have to execute it in the shell using the command ***git clone url***.
