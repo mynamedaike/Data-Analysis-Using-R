@@ -22,7 +22,7 @@ I started up the RStudio. From the user interface, I saw the local README.md was
 
 - Step 3
 
-After editting README.md file, I tried to extend the R markdown document. As I have no basics of R, I just followed the book *R for Data Science*, copied some examples in it into the R markdown document and tried to figure out the syntax of every command. Compared to editing README.md, this part is much more difficult for me. I need to spend more time to learn basic syntax of R. *R for Data Science* is a really great tutorial for me to get started with writing R program.
+After editting README.md file, I tried to extend the R markdown document. As I have no basics of R, I just followed the book ***R for Data Science***, copied some examples in it into the R markdown document and tried to figure out the syntax of every command. Compared to editing README.md, this part is much more difficult for me. I need to spend more time to learn basic syntax of R. ***R for Data Science*** is a really great tutorial for me to get started with writing R program.
 
 - Problems
 
