@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Gapminder Exploration"
 author: "daike"
 date: "2016年9月15日"
 output: github_document
@@ -28,3 +28,23 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+## Extend this R Markdown Document
+```{r}
+library(gapminder)
+library(ggplot2)
+```
+```{r}
+gapminder
+class(gapminder)                                       
+mode(gapminder)
+names(gapminder)
+dim(gapminder) 
+ncol(gapminder)
+nrow(gapminder)
+summary(gapminder)
+```
+```{r}
+ggplot(data = gapminder) + 
+  geom_bar(mapping = aes(x = continent))
+```
