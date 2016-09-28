@@ -54,7 +54,7 @@ is.list(gapminder)
 
     ## [1] TRUE
 
-   Gapminder is a data.frame and also a list.
+Gapminder is a data.frame and also a list.
 
 -   **What’s its class?**
 
@@ -64,7 +64,7 @@ class(gapminder)
 
     ## [1] "tbl_df"     "tbl"        "data.frame"
 
-   The class of gapminder is table or data.frame.
+The class of gapminder is table or data.frame.
 
 -   **How many variables/columns?**
 
@@ -74,7 +74,7 @@ ncol(gapminder)
 
     ## [1] 6
 
-   Gapminder has 6 variables or columns.
+Gapminder has 6 variables or columns.
 
 -   **How many rows/observations?**
 
@@ -84,7 +84,7 @@ nrow(gapminder)
 
     ## [1] 1704
 
-   Gapminder has 1704 observations or rows.
+Gapminder has 1704 observations or rows.
 
 -   **Can you get these facts about “extent” or “size” in more than one way? Can you imagine different functions being useful in different contexts?**
 
@@ -119,11 +119,11 @@ dim(gapminder)
 
     ## [1] 1704    6
 
-   We can also use str, glimpse and dim function to get the size. Compared to nrow and ncol, dim can get the number of both      row and column. And str and glimpse can get the name and type of each variable in addition to the number of row and            column. So str and glimpse seem more powerful.
+We can also use str, glimpse and dim function to get the size. Compared to nrow and ncol, dim can get the number of both row and column. And str and glimpse can get the name and type of each variable in addition to the number of row and column. So str and glimpse seem more powerful.
 
 -   **What flavor is each variable?**
 
-   We can get the flavor of each variable using str(gapminder) as mentioned before. Country and continent variable are of            factor flavor. Year, lifeExp, pop and gdpPercap variable are of numeric flavor.
+We can get the flavor of each variable using str(gapminder) as mentioned before. Country and continent variable are of factor flavor. Year, lifeExp, pop and gdpPercap variable are of numeric flavor.
 
 Explore individual variables
 ----------------------------
