@@ -27,25 +27,25 @@ is.matrix(gapminder)
 is.vector(gapminder)
 is.list(gapminder)
 ```
-&#160; &#160;Gapminder is a data.frame and also a list.
+Gapminder is a data.frame and also a list.
 
 - **What’s its class?**
 ```{r}
 class(gapminder)
 ```
-&#160; &#160;The class of gapminder is table or data.frame.
+The class of gapminder is table or data.frame.
 
 - **How many variables/columns?**
 ```{r}
 ncol(gapminder)
 ```
-&#160; &#160;Gapminder has 6 variables or columns.
+Gapminder has 6 variables or columns.
 
 - **How many rows/observations?**
 ```{r}
 nrow(gapminder)
 ```
-&#160; &#160;Gapminder has 1704 observations or rows.
+Gapminder has 1704 observations or rows.
 
 - **Can you get these facts about “extent” or “size” in more than one way? Can you imagine different functions being useful in different contexts?**
 ```{r}
@@ -53,11 +53,11 @@ str(gapminder)
 glimpse(gapminder)
 dim(gapminder)
 ```
-&#160; &#160;We can also use str, glimpse and dim function to get the size. Compared to nrow and ncol, dim can get the number of both &#160; &#160; &#160;row and column. And str and glimpse can get the name and type of each variable in addition to the number of row and &#160; &#160; &#160; &#160; &#160; &#160;column. So str and glimpse seem more powerful.
+We can also use str, glimpse and dim function to get the size. Compared to nrow and ncol, dim can get the number of both row and column. And str and glimpse can get the name and type of each variable in addition to the number of row and column. So str and glimpse seem more powerful.
 
 - **What flavor is each variable?**
 
-&#160; &#160;We can get the flavor of each variable using str(gapminder) as mentioned before. Country and continent variable are of &#160; &#160; &#160; &#160; &#160; &#160;factor flavor. Year, lifeExp, pop and gdpPercap variable are of numeric flavor.
+We can get the flavor of each variable using str(gapminder) as mentioned before. Country and continent variable are of factor flavor. Year, lifeExp, pop and gdpPercap variable are of numeric flavor.
 
 ## Explore individual variables
 **Pick at least one categorical variable and at least one quantitative variable to explore.**
