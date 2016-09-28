@@ -35,7 +35,6 @@ library(gapminder)
 library(ggplot2)
 ```
 ```{r}
-gapminder
 class(gapminder)                                       
 mode(gapminder)
 names(gapminder)
