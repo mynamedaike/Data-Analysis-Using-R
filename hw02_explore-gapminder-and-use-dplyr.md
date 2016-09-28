@@ -119,11 +119,11 @@ dim(gapminder)
 
     ## [1] 1704    6
 
-   We can also use str, glimpse and dim function to get the size. Compared to nrow and ncol, dim can get    the number of both row and column. And str and glimpse can get the name and type of each variable in    addition to the number of row and column. So str and glimpse seem more powerful.
+   We can also use str, glimpse and dim function to get the size. Compared to nrow and ncol, dim can get the number of both      row and column. And str and glimpse can get the name and type of each variable in addition to the number of row and            column. So str and glimpse seem more powerful.
 
 -   **What flavor is each variable?**
 
-   We can get the flavor of each variable using str(gapminder) as mentioned before. Country and continent      variable are of factor flavor. Year, lifeExp, pop and gdpPercap variable are of numeric flavor.
+   We can get the flavor of each variable using str(gapminder) as mentioned before. Country and continent variable are of            factor flavor. Year, lifeExp, pop and gdpPercap variable are of numeric flavor.
 
 Explore individual variables
 ----------------------------
