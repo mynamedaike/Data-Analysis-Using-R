@@ -257,11 +257,38 @@ densityplot(gapminder$lifeExp)
 ![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-11-3.png)
 
 ``` r
+ggplot(gapminder, mapping = aes(x = lifeExp)) +
+  geom_histogram(fill = "red")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-11-4.png)
+
+``` r
+ggplot(gapminder, mapping = aes(x = lifeExp)) +
+  geom_freqpoly(color = "blue")
+```
+
+    ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-11-5.png)
+
+``` r
+ggplot(gapminder, mapping = aes(x = lifeExp)) +
+  geom_density(color = "green")
+```
+
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-11-6.png)
+
+``` r
 ggplot(data = gapminder, mapping = aes(x = continent, y = lifeExp)) +
   geom_boxplot()
 ```
 
-![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-12-1.png) As shown above, I plot a scatterplot of lifeExp and gdpPercap, a histogram, a densityplot and frequency polygon of life Exp, and a plot of lifeExp and continent.
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-12-1.png)
+
+As shown above, I plot a scatterplot of lifeExp and gdpPercap, 2 histograms, 2 densityplots and 2 frequency polygons of life Exp using different libraries, and a plot of lifeExp and continent.
 
 Use filter(), select(), and %&gt;%
 ----------------------------------
@@ -272,8 +299,8 @@ Use filter(), select(), and %&gt;%
 gapminder %>% 
    filter(country == "Canada" | country == "China") %>% 
    select(country, year, lifeExp) %>%
-   ggplot(aes(x = year, y = lifeExp, color = country)) +
-   geom_point()
+   ggplot(aes(x = year, y = lifeExp, fill = country)) +
+   geom_bar(stat = "identity", position = "dodge")
 ```
 
 ![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-13-1.png)
@@ -283,6 +310,7 @@ gapminder %>%
    filter(country == "Canada" | country == "China") %>% 
    select(country, year, pop) %>%
    ggplot(aes(x = year, y = pop, color = country)) +
+   scale_y_log10() +
    geom_point()
 ```
 
@@ -293,12 +321,14 @@ gapminder %>%
    filter(country == "Canada" | country == "China") %>% 
    select(country, year, gdpPercap) %>%
    ggplot(aes(x = year, y = gdpPercap, color = country)) +
-   geom_point()
+   scale_y_log10() +
+   geom_point() +
+   geom_path()
 ```
 
 ![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-13-3.png)
 
-As I am from China, I am interested in make some comparison between China and Canana. In the first graph, I compared the lifeExp of the two countries. We can see that the present life expectancy of China is still shorter than that of Canada although it has grown more rapidly in the last fifty years. In the second graph, I compared the pop of them. We can see that the pupulation of China has more than doubled while the population of Canada remains stable. In the third graph, I compared the gdpPercap between them. We can see that the GDP per capita of Canada has experienced a significant growth while China has only a slight growth in it.
+As I am from China, I am interested in make some comparison between China and Canana. In the first graph, I compared the lifeExp of the two countries. We can see that the present life expectancy of China is still shorter than that of Canada although it has grown more rapidly in the last fifty years. In the second graph, I compared the pop of them. We can see that the pupulation of China has more than doubled while the population of Canada remains stable. In the third graph, I compared the gdpPercap between them. We can see that the GDP per capita of both countries has experienced a significant growth.
 
 But I want to do more!
 ----------------------
@@ -435,7 +465,8 @@ gapminder %>%
   group_by(continent, year) %>% 
   summarise(avgLifeExp = mean(lifeExp, na.rm = TRUE)) %>% 
   ggplot(aes(x = year, y = avgLifeExp, color = continent)) +
-  geom_point()
+  geom_point() +
+  geom_path()
 ```
 
 ![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-17-1.png)
@@ -452,7 +483,7 @@ My questions
 
 1.  What is the difference among *typeof()*, *mode()* and *class()*?
 2.  When I apply *is.data.frame()* and *is.list()* to gapminder, both of them return true. So is it that *is.<type>(obj)* returns true as long as this object is of the given type or class.
-3.  In the below code chunk, I create a list. Why do *typeof(a)* and *mode(a)* not return list?
+3.  In the below code chunk, I create a vector. Why do *typeof(a)* and *mode(a)* not return vector?
 
 ``` r
 a = c(1, 2, 3)
