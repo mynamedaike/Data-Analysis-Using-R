@@ -471,8 +471,6 @@ gapminder %>%
 
 ![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-17-1.png)
 
-**Adapt exercises from the chapters in the “Explore” section of R for Data Science to the Gapminder dataset.**
-
 Report your process
 -------------------
 

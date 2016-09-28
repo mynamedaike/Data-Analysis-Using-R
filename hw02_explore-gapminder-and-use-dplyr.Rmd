@@ -193,9 +193,6 @@ gapminder %>%
   geom_path()
 ```
   
-**Adapt exercises from the chapters in the “Explore” section of R for Data Science to the Gapminder dataset.**
-
-
 ## Report your process
 Before starting doing Homework 02, I first spent serveral hours reading Explore part of the book ***R for Data Science***. For the first time reading, I did not force myself to memorize the syntax of each command exactly. I just want to have an impression of the content. And then I get started with the homework. When I got stuck on a specific question, I tried to find the answer or get some ideas from the book or the notes in the lecture. I have to say this book is really useful. I can find the answers to most of my questions in it. For the questions I cannot solve through the book, I tried to search the answers or relative information by google or baidu (a popular search engine for Chinese people). Although I have spared no effort to figure out every question I had, there are still some questions remaining to be solved. Anyway, the process is interesting. I learned a lot from this assignment.
 
