@@ -119,7 +119,7 @@ dim(gapminder)
 
     ## [1] 1704    6
 
-   We can also use str, glimpse and dim function to get the size.
+   We can also use str, glimpse and dim function to get the size. Compared to nrow and ncol, dim can get    the number of both row and column. And str and glimpse can get the name and type of each variable in    addition to the number of row and column. So str and glimpse seem more powerful.
 
 -   **What flavor is each variable?**
 
@@ -156,7 +156,7 @@ ggplot(data = gapminder, mapping = aes(x = as.integer(lifeExp))) +
   geom_bar()
 ```
 
-![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-10-1.png)
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
 ``` r
 range(gapminder$lifeExp)
@@ -194,7 +194,7 @@ ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp)) +
   facet_wrap(~ continent)
 ```
 
-![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-11-1.png)
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
 ``` r
 library(mosaic)
@@ -242,26 +242,26 @@ library(lattice)
 histogram(gapminder$lifeExp)
 ```
 
-![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-12-1.png)
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
 ``` r
 freqpolygon(gapminder$lifeExp)
 ```
 
-![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-12-2.png)
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-11-2.png)
 
 ``` r
 densityplot(gapminder$lifeExp)
 ```
 
-![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-12-3.png)
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-11-3.png)
 
 ``` r
 ggplot(data = gapminder, mapping = aes(x = continent, y = lifeExp)) +
   geom_boxplot()
 ```
 
-![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-13-1.png) As shown above, I plot a scatterplot of lifeExp and gdpPercap, a histogram, a densityplot and frequency polygon of life Exp, and a plot of lifeExp and continent.
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-12-1.png) As shown above, I plot a scatterplot of lifeExp and gdpPercap, a histogram, a densityplot and frequency polygon of life Exp, and a plot of lifeExp and continent.
 
 Use filter(), select(), and %&gt;%
 ----------------------------------
@@ -276,7 +276,7 @@ gapminder %>%
    geom_point()
 ```
 
-![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-14-1.png)
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
 ``` r
 gapminder %>% 
@@ -286,7 +286,7 @@ gapminder %>%
    geom_point()
 ```
 
-![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-14-2.png)
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-13-2.png)
 
 ``` r
 gapminder %>% 
@@ -296,7 +296,7 @@ gapminder %>%
    geom_point()
 ```
 
-![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-14-3.png)
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-13-3.png)
 
 As I am from China, I am interested in make some comparison between China and Canana. In the first graph, I compared the lifeExp of the two countries. We can see that the present life expectancy of China is still shorter than that of Canada although it has grown more rapidly in the last fifty years. In the second graph, I compared the pop of them. We can see that the pupulation of China has more than doubled while the population of Canada remains stable. In the third graph, I compared the gdpPercap between them. We can see that the GDP per capita of Canada has experienced a significant growth while China has only a slight growth in it.
 
@@ -438,7 +438,7 @@ gapminder %>%
   geom_point()
 ```
 
-![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-18-1.png)
+![](hw02_explore-gapminder-and-use-dplyr_files/figure-markdown_github/unnamed-chunk-17-1.png)
 
 **Adapt exercises from the chapters in the “Explore” section of R for Data Science to the Gapminder dataset.**
 
