@@ -337,14 +337,16 @@ gapminder %>%
   ggtitle("The life expectancy of China from 1950 to 2007")
 ```
 
-![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-14-1.png) Look at this graph, you may be wondering why there is a sharp decline of life expectancy for China in 1962. It will make this figure understandable if you learn a little bit about the so-called <a href = "https://en.wikipedia.org/wiki/Great_Chinese_Famine">Three Years of Great Chinese Famine</a> which happened in China from 1959 to 1961. It is a great shame in Chinese history. I would not like to talk about it more here.
+![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-14-1.png)
+
+Look at this graph, you may be wondering why there is a sharp decline of life expectancy for China in 1962. It will make this figure understandable if you learn a little bit about the so-called <a href = "https://en.wikipedia.org/wiki/Great_Chinese_Famine">Three Years of Great Chinese Famine</a> which happened in China from 1959 to 1961. It is a great shame in Chinese history. I would not like to talk about it more here.
 
 ### Make up your own! Between the dplyr coverage in class and the list above, I think you get the idea.
 
 ``` r
 ## compute the gdp of Japan, the United Kingdom, Canada, Germany, France and China for each year
 gdp <- gapminder %>% 
-  filter(country %in% c("Japan", "United Kingdom", "Canada", "Germany", "France",          "China")) %>% 
+  filter(country %in% c("Japan", "United Kingdom", "Canada", "Germany", "France", "China")) %>% 
   select(year, country, pop, gdpPercap) %>% 
   mutate(gdp = pop * gdpPercap, pop = NULL, gdpPercap = NULL)
 knitr::kable(gdp)
@@ -437,7 +439,7 @@ gdp %>%
 ``` r
 ## get the life expectancy of Japan, the United Kingdom, Canada, Germany, France and China for each year
 lifeExp <- gapminder %>% 
-  filter(country %in% c("Japan", "United Kingdom", "Canada", "Germany", "France",          "China")) %>% 
+  filter(country %in% c("Japan", "United Kingdom", "Canada", "Germany", "France", "China")) %>% 
   select(year, country, lifeExp)
 knitr::kable(lifeExp)
 ```
@@ -521,20 +523,11 @@ knitr::kable(lifeExp)
 lifeExp %>% 
   ggplot(aes(x = year, y = lifeExp, shape = country, color = country)) +
   geom_point() +
-  geom_path()
-```
-
-![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-18-1.png)
-
-``` r
+  geom_path() +
   ggtitle("The life expectancy of Japan, the United Kingdom, Canada, Germany, France and China for each year")
 ```
 
-    ## $title
-    ## [1] "The life expectancy of Japan, the United Kingdom, Canada, Germany, France and China for each year"
-    ## 
-    ## attr(,"class")
-    ## [1] "labels"
+![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-18-1.png)
 
 Report your process
 -------------------
