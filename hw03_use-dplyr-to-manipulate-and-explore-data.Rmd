@@ -183,6 +183,7 @@ gdp_min_max <- gapminder %>%
                    maxGdpPercap = max(gdpPercap, na.rm = TRUE))
 knitr::kable(gdp_min_max)
 ```
+
 But this format of data is difficult to plot it. So I transformed it to the format below which is convenient to visualize it using various plotting functions in ggplot2 library. 
 ```{r}
 gdp_min = gapminder %>% 
@@ -196,4 +197,5 @@ gdp_max = gapminder %>%
 gdp_min_max_shaped = rbind(gdp_min, gdp_max)
 knitr::kable(gdp_min_max_shaped)
 ```
+
 I learned that rbind can combine two tables or data.frames together with the same number and names of variables searching on the internet.

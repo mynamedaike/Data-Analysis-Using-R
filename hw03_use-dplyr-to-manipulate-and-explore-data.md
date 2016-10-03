@@ -544,14 +544,15 @@ gdp_min_max <- gapminder %>%
 knitr::kable(gdp_min_max)
 ```
 
-| continent    |    minGdpPercap|                                                                                                                                            maxGdpPercap|
-|:-------------|---------------:|-------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| Africa       |        241.1659|                                                                                                                                                21951.21|
-| Americas     |       1201.6372|                                                                                                                                                42951.65|
-| Asia         |        331.0000|                                                                                                                                               113523.13|
-| Europe       |        973.5332|                                                                                                                                                49357.19|
-| Oceania      |      10039.5956|                                                                                                                                                34435.37|
-| But this for |  mat of data is|  difficult to plot it. So I transformed it to the format below which is convenient to visualize it using various plotting functions in ggplot2 library.|
+| continent |  minGdpPercap|  maxGdpPercap|
+|:----------|-------------:|-------------:|
+| Africa    |      241.1659|      21951.21|
+| Americas  |     1201.6372|      42951.65|
+| Asia      |      331.0000|     113523.13|
+| Europe    |      973.5332|      49357.19|
+| Oceania   |    10039.5956|      34435.37|
+
+But this format of data is difficult to plot it. So I transformed it to the format below which is convenient to visualize it using various plotting functions in ggplot2 library.
 
 ``` r
 gdp_min = gapminder %>% 
@@ -566,16 +567,17 @@ gdp_min_max_shaped = rbind(gdp_min, gdp_max)
 knitr::kable(gdp_min_max_shaped)
 ```
 
-| continent    |       gdpPercap| min\_max                                                                                                         |
-|:-------------|---------------:|:-----------------------------------------------------------------------------------------------------------------|
-| Africa       |        241.1659| min                                                                                                              |
-| Americas     |       1201.6372| min                                                                                                              |
-| Asia         |        331.0000| min                                                                                                              |
-| Europe       |        973.5332| min                                                                                                              |
-| Oceania      |      10039.5956| min                                                                                                              |
-| Africa       |      21951.2118| max                                                                                                              |
-| Americas     |      42951.6531| max                                                                                                              |
-| Asia         |     113523.1329| max                                                                                                              |
-| Europe       |      49357.1902| max                                                                                                              |
-| Oceania      |      34435.3674| max                                                                                                              |
-| I learned th |  at rbind can c| ombine two tables or data.frames together with the same number and names of variables searching on the internet. |
+| continent |    gdpPercap| min\_max |
+|:----------|------------:|:---------|
+| Africa    |     241.1659| min      |
+| Americas  |    1201.6372| min      |
+| Asia      |     331.0000| min      |
+| Europe    |     973.5332| min      |
+| Oceania   |   10039.5956| min      |
+| Africa    |   21951.2118| max      |
+| Americas  |   42951.6531| max      |
+| Asia      |  113523.1329| max      |
+| Europe    |   49357.1902| max      |
+| Oceania   |   34435.3674| max      |
+
+I learned that rbind can combine two tables or data.frames together with the same number and names of variables searching on the internet.
