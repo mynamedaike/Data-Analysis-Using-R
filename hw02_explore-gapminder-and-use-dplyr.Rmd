@@ -1,5 +1,5 @@
 ---
-title: "Explore Gapminder and Use dplyr"
+title: "Homework 02: Explore Gapminder and use dplyr"
 author: "Ke Dai"
 date: "2016/9/27"
 output: github_document

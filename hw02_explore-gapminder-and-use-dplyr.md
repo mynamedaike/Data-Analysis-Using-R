@@ -1,4 +1,4 @@
-Explore Gapminder and Use dplyr
+Homework 02: Explore Gapminder and use dplyr
 ================
 Ke Dai
 2016/9/27

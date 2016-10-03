@@ -1,0 +1,198 @@
+---
+title: 'Homework 03: Use dplyr to manipulate and explore data (also use ggplot2)'
+author: "Ke Dai"
+date: "2016/9/30"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Import gapminder, dplyr and ggplot2
+
+```{r}
+library(gapminder)
+library(dplyr)
+library(ggplot2)
+```
+
+## Task menu
+### Get the maximum and minimum of GDP per capita for all continents.
+```{r}
+gdp_min_max <- gapminder %>% 
+         group_by(continent) %>% 
+         summarise(minGdpPercap = min(gdpPercap, na.rm = TRUE), 
+                   maxGdpPercap = max(gdpPercap, na.rm = TRUE))
+knitr::kable(gdp_min_max)
+```
+```{r}
+gdp_min = gapminder %>% 
+  group_by(continent) %>% 
+  summarise(minGdpPercap = min(gdpPercap, na.rm = TRUE)) %>% 
+  mutate(gdpPercap = minGdpPercap, min_max = "min", minGdpPercap = NULL) 
+gdp_max = gapminder %>% 
+  group_by(continent) %>% 
+  summarise(maxGdpPercap = max(gdpPercap, na.rm = TRUE)) %>%    
+  mutate(gdpPercap = maxGdpPercap, min_max = "max", maxGdpPercap = NULL) 
+gdp_min_max_shaped = rbind(gdp_min, gdp_max)
+gdp_min_max_shaped %>% 
+  ggplot(aes(x = continent, y = gdpPercap, fill = min_max)) +
+  scale_y_log10() +
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("GDP per capita by continent")
+```
+
+### Look at the spread of GDP per capita within the continents.
+```{r}
+gdp_spread <- gapminder %>% 
+  group_by(continent) %>% 
+  summarise(min = min(gdpPercap), max = max(gdpPercap), mean = mean(gdpPercap),
+            median = median(gdpPercap), sd = sd(gdpPercap), IQR = IQR(gdpPercap))
+knitr::kable(gdp_spread)
+```
+```{r}
+gapminder %>% 
+  ggplot(aes(x = continent, y = gdpPercap, color = continent)) +
+  geom_boxplot() +
+  ggtitle("The spread of GDP per capita within the continents")
+```
+
+### Compute a trimmed mean of life expectancy for different years. Or a weighted mean, weighting by population. Just try something other than the plain vanilla mean.
+```{r}
+## compute a 10% trimmed mean of life expectancy for different years
+lifeExp_trimmedMean <- gapminder %>% 
+  group_by(year) %>% 
+  summarise(trimmedMeanLifeExp = mean(lifeExp, trim = 0.1))
+knitr::kable(lifeExp_trimmedMean)
+```
+```{r}
+lifeExp_trimmedMean %>% 
+  ggplot(aes(x = year, y = trimmedMeanLifeExp)) +
+  geom_point(color = "red") +
+  geom_path(color = "red") +
+  ggtitle("10% trimmed mean of life expectancy for different years")
+```
+```{r}
+## compute a weighted mean of life expectancy on population for different years
+lifeExp_weightedMean <- gapminder %>% 
+  group_by(year) %>% 
+  summarise(weightedMeanLifeExp = weighted.mean(lifeExp, pop))
+knitr::kable(lifeExp_weightedMean)
+```
+```{r}
+lifeExp_weightedMean %>% 
+  ggplot(aes(x = year, y = weightedMeanLifeExp)) +
+  geom_point(color = "blue") +
+  geom_path(color = "blue") +
+  ggtitle("Weighted mean of life expectancy on population for different years")
+```
+
+### How is life expectancy changing over time on different continents?
+```{r}
+## compute a mean of life expectancy for different continents and different years
+lifeExp_mean <- gapminder %>% 
+  group_by(continent, year) %>% 
+  summarise(meanLifeExp = mean(lifeExp))
+knitr::kable(lifeExp_mean)
+```
+```{r}
+lifeExp_mean %>% 
+  ggplot(aes(x = year, y = meanLifeExp, color = continent)) +
+  geom_point() +
+  geom_path() +
+  ggtitle("Life expectancy changing over time on different continents")
+```
+
+### Report the absolute and/or relative abundance of countries with low life expectancy over time by continent: Compute some measure of worldwide life expectancy – you decide – a mean or median or some other quantile or perhaps your current age. The determine how many countries on each continent have a life expectancy less than this benchmark, for each year.
+```{r}
+# compute the mean of the life expectancy of all the countries in 2007 as the benchmark
+gap_2007 <- gapminder %>% 
+  filter(year == 2007) %>% 
+  select(lifeExp)
+avgLifeExp_2007 = mean(gap_2007$lifeExp)
+avgLifeExp_2007
+
+# compute how many countries on each continent have a life expectancy less than this benchmark for each year
+gdp_lowLifeExp <- gapminder %>%
+  select(continent, year, lifeExp) %>% 
+  group_by(continent, year) %>% 
+  filter(lifeExp < avgLifeExp_2007) %>% 
+  summarise(lowLifeExpNum = n())
+knitr::kable(gdp_lowLifeExp)
+```
+```{r}
+gdp_lowLifeExp %>% 
+  ggplot(aes(x = year, y = lowLifeExpNum, color = continent)) +
+  geom_point() +
+  geom_path() +
+  ggtitle("The number of countries on each continent which have a life expectancy less than the worldwide average life expectancy in 2007 for each year")
+```
+
+### Find countries with interesting stories. Open-ended and, therefore, hard. Promising but unsuccessful attempts are encouraged. This will generate interesting questions to follow up on in class.
+```{r}
+## get the life expectancy of China from 1950 to 2007
+gapminder %>% 
+  filter(country == "China") %>% 
+  ggplot(aes(x = year, y = lifeExp)) +
+  geom_point(color = "orange") +
+  geom_path(color = "orange") +
+  ggtitle("The life expectancy of China from 1950 to 2007")
+```
+Look at this graph, you may be wondering why there is a sharp decline of life expectancy for China in 1962. It will make this figure understandable if you learn a little bit about the so-called <a href = "https://en.wikipedia.org/wiki/Great_Chinese_Famine">Three Years of Great Chinese Famine</a> which happened in China from 1959 to 1961. It is a great shame in Chinese history. I would not like to talk about it more here. 
+
+### Make up your own! Between the dplyr coverage in class and the list above, I think you get the idea.
+```{r}
+## compute the gdp of Japan, the United Kingdom, Canada, Germany, France and China for each year
+gdp <- gapminder %>% 
+  filter(country %in% c("Japan", "United Kingdom", "Canada", "Germany", "France",          "China")) %>% 
+  select(year, country, pop, gdpPercap) %>% 
+  mutate(gdp = pop * gdpPercap, pop = NULL, gdpPercap = NULL)
+knitr::kable(gdp)
+```
+```{r}
+gdp %>% 
+  ggplot(aes(x = year, y = gdp, fill = country)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("The gdp of Japan, the United kingdom, Canada, Germany, France and China for each year")
+```
+```{r}
+## get the life expectancy of Japan, the United Kingdom, Canada, Germany, France and China for each year
+lifeExp <- gapminder %>% 
+  filter(country %in% c("Japan", "United Kingdom", "Canada", "Germany", "France",          "China")) %>% 
+  select(year, country, lifeExp)
+knitr::kable(lifeExp)
+```
+```{r}
+lifeExp %>% 
+  ggplot(aes(x = year, y = lifeExp, shape = country, color = country)) +
+  geom_point() +
+  geom_path()
+  ggtitle("The life expectancy of Japan, the United Kingdom, Canada, Germany, France and China for each year")
+```
+
+## Report your process
+I think Homework 3 is not very difficult for me. Most of tasks are similar to what we have practised in the class. For something that I am not sure, I searched the answer through the book ***R for Data Science*** and on the Internet. This homework is helpful for me to be more familiar with various functions in dplyr and ggplot2 library. I finished all the tasks in this homework. I think the first task is relatively more difficult compared to the other tasks because I have to do some transformation on the data in order to plot it approriately. 
+
+Specifically, I can get the minimum and maximum value of GDP per capita for each continent using the following sentences.
+```{r}
+gdp_min_max <- gapminder %>% 
+         group_by(continent) %>% 
+         summarise(minGdpPercap = min(gdpPercap, na.rm = TRUE), 
+                   maxGdpPercap = max(gdpPercap, na.rm = TRUE))
+knitr::kable(gdp_min_max)
+```
+But this format of data is difficult to plot it. So I transformed it to the format below which is convenient to visualize it using various plotting functions in ggplot2 library. 
+```{r}
+gdp_min = gapminder %>% 
+  group_by(continent) %>% 
+  summarise(minGdpPercap = min(gdpPercap, na.rm = TRUE)) %>% 
+  mutate(gdpPercap = minGdpPercap, min_max = "min", minGdpPercap = NULL) 
+gdp_max = gapminder %>% 
+  group_by(continent) %>% 
+  summarise(maxGdpPercap = max(gdpPercap, na.rm = TRUE)) %>%    
+  mutate(gdpPercap = maxGdpPercap, min_max = "max", maxGdpPercap = NULL) 
+gdp_min_max_shaped = rbind(gdp_min, gdp_max)
+knitr::kable(gdp_min_max_shaped)
+```
+I learned that rbind can combine two tables or data.frames together with the same number and names of variables searching on the internet.
