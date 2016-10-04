@@ -431,7 +431,7 @@ knitr::kable(gdp)
 gdp %>% 
   ggplot(aes(x = year, y = gdp, fill = country)) +
   geom_bar(stat = "identity", position = "dodge") +
-  ggtitle("The gdp of Japan, the United kingdom, Canada, Germany, France and China for each year")
+  ggtitle("The gdp of six countries for each year")
 ```
 
 ![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-16-1.png)
@@ -524,7 +524,7 @@ lifeExp %>%
   ggplot(aes(x = year, y = lifeExp, shape = country, color = country)) +
   geom_point() +
   geom_path() +
-  ggtitle("The life expectancy of Japan, the United Kingdom, Canada, Germany, France and China for each year")
+  ggtitle("The life expectancy of six countries for each year")
 ```
 
 ![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-18-1.png)
