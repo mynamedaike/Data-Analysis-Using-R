@@ -320,7 +320,8 @@ gdp_lowLifeExp %>%
   ggplot(aes(x = year, y = lowLifeExpNum, color = continent)) +
   geom_point() +
   geom_path() +
-  ggtitle("The number of countries on each continent which have a life expectancy less than the worldwide average life expectancy in 2007 for each year")
+  ggtitle("The number of countries on each continent which have a life expectancy 
+less than the worldwide average life expectancy in 2007 for each year")
 ```
 
 ![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-13-1.png)
