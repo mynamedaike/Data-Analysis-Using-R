@@ -19,13 +19,18 @@ library(ggplot2)
 
 ## Task menu
 ### Get the maximum and minimum of GDP per capita for all continents.
-```{r}
+<table>
+<tr>
+<th>
+```{r result = 'asis', echo = FALSE}
 gdp_min_max <- gapminder %>% 
          group_by(continent) %>% 
          summarise(minGdpPercap = min(gdpPercap, na.rm = TRUE), 
                    maxGdpPercap = max(gdpPercap, na.rm = TRUE))
 knitr::kable(gdp_min_max)
 ```
+</th>
+<th>
 ```{r}
 gdp_min = gapminder %>% 
   group_by(continent) %>% 
@@ -42,6 +47,9 @@ gdp_min_max_shaped %>%
   geom_bar(stat = "identity", position = "dodge") +
   ggtitle("GDP per capita by continent")
 ```
+</th>
+</tr>
+</table>
 
 ### Look at the spread of GDP per capita within the continents.
 ```{r}
