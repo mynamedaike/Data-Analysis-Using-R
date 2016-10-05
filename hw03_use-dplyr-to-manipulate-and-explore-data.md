@@ -31,12 +31,22 @@ Task menu
 
 ### Get the maximum and minimum of GDP per capita for all continents.
 
-<table>
-<tr>
-<th>
-continent minGdpPercap maxGdpPercap ---------- ------------- ------------- Africa 241.1659 21951.21 Americas 1201.6372 42951.65 Asia 331.0000 113523.13 Europe 973.5332 49357.19 Oceania 10039.5956 34435.37
-</th>
-<th>
+``` r
+gdp_min_max <- gapminder %>% 
+         group_by(continent) %>% 
+         summarise(minGdpPercap = min(gdpPercap, na.rm = TRUE), 
+                   maxGdpPercap = max(gdpPercap, na.rm = TRUE))
+knitr::kable(gdp_min_max)
+```
+
+| continent |  minGdpPercap|  maxGdpPercap|
+|:----------|-------------:|-------------:|
+| Africa    |      241.1659|      21951.21|
+| Americas  |     1201.6372|      42951.65|
+| Asia      |      331.0000|     113523.13|
+| Europe    |      973.5332|      49357.19|
+| Oceania   |    10039.5956|      34435.37|
+
 ``` r
 gdp_min = gapminder %>% 
   group_by(continent) %>% 
@@ -55,9 +65,7 @@ gdp_min_max_shaped %>%
 ```
 
 ![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-3-1.png)
-</th>
-</tr>
-</table>
+
 ### Look at the spread of GDP per capita within the continents.
 
 ``` r
