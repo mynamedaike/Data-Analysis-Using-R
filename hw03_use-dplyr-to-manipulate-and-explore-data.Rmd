@@ -187,15 +187,15 @@ knitr::kable(gdp_min_max)
 
 But this format of data is difficult to plot it. So I transformed it to the format below which is convenient to visualize it using various plotting functions in ggplot2 library. 
 ```{r}
-gdp_min = gapminder %>% 
+gdp_min <- gapminder %>% 
   group_by(continent) %>% 
   summarise(minGdpPercap = min(gdpPercap, na.rm = TRUE)) %>% 
   mutate(gdpPercap = minGdpPercap, min_max = "min", minGdpPercap = NULL) 
-gdp_max = gapminder %>% 
+gdp_max <- gapminder %>% 
   group_by(continent) %>% 
   summarise(maxGdpPercap = max(gdpPercap, na.rm = TRUE)) %>%    
   mutate(gdpPercap = maxGdpPercap, min_max = "max", maxGdpPercap = NULL) 
-gdp_min_max_shaped = rbind(gdp_min, gdp_max)
+gdp_min_max_shaped <- rbind(gdp_min, gdp_max)
 knitr::kable(gdp_min_max_shaped)
 ```
 
