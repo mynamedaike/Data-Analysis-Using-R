@@ -29,7 +29,7 @@ library(ggplot2)
 Task menu
 ---------
 
-### Get the maximum and minimum of GDP per capita for all continents.
+### 1. Get the maximum and minimum of GDP per capita for all continents.
 
 ``` r
 gdp_min_max <- gapminder %>% 
@@ -66,7 +66,7 @@ gdp_min_max_shaped %>%
 
 ![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
-### Look at the spread of GDP per capita within the continents.
+### 2. Look at the spread of GDP per capita within the continents.
 
 ``` r
 gdp_spread <- gapminder %>% 
@@ -93,7 +93,7 @@ gapminder %>%
 
 ![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-5-1.png)
 
-### Compute a trimmed mean of life expectancy for different years. Or a weighted mean, weighting by population. Just try something other than the plain vanilla mean.
+### 3. Compute a trimmed mean of life expectancy for different years. Or a weighted mean, weighting by population. Just try something other than the plain vanilla mean.
 
 ``` r
 ## compute a 10% trimmed mean of life expectancy for different years
@@ -161,7 +161,7 @@ lifeExp_weightedMean %>%
 
 ![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-9-1.png)
 
-### How is life expectancy changing over time on different continents?
+### 4. How is life expectancy changing over time on different continents?
 
 ``` r
 ## compute a mean of life expectancy for different continents and different years
@@ -244,7 +244,7 @@ lifeExp_mean %>%
 
 ![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-11-1.png)
 
-### Report the absolute and/or relative abundance of countries with low life expectancy over time by continent: Compute some measure of worldwide life expectancy – you decide – a mean or median or some other quantile or perhaps your current age. The determine how many countries on each continent have a life expectancy less than this benchmark, for each year.
+### 5. Report the absolute and/or relative abundance of countries with low life expectancy over time by continent: Compute some measure of worldwide life expectancy – you decide – a mean or median or some other quantile or perhaps your current age. The determine how many countries on each continent have a life expectancy less than this benchmark, for each year.
 
 ``` r
 # compute the mean of the life expectancy of all the countries in 2007 as the benchmark
@@ -326,7 +326,7 @@ less than the worldwide average life expectancy in 2007 for each year")
 
 ![](hw03_use-dplyr-to-manipulate-and-explore-data_files/figure-markdown_github/unnamed-chunk-13-1.png)
 
-### Find countries with interesting stories. Open-ended and, therefore, hard. Promising but unsuccessful attempts are encouraged. This will generate interesting questions to follow up on in class.
+### 6. Find countries with interesting stories. Open-ended and, therefore, hard. Promising but unsuccessful attempts are encouraged. This will generate interesting questions to follow up on in class.
 
 ``` r
 ## get the life expectancy of China from 1950 to 2007
@@ -342,7 +342,7 @@ gapminder %>%
 
 Look at this graph, you may be wondering why there is a sharp decline of life expectancy for China in 1962. It will make this figure understandable if you learn a little bit about the so-called <a href = "https://en.wikipedia.org/wiki/Great_Chinese_Famine">Three Years of Great Chinese Famine</a> which happened in China from 1959 to 1961. It is a great shame in Chinese history. I would not like to talk about it more here.
 
-### Make up your own! Between the dplyr coverage in class and the list above, I think you get the idea.
+### 7. Make up your own! Between the dplyr coverage in class and the list above, I think you get the idea.
 
 ``` r
 ## compute the gdp of Japan, the United Kingdom, Canada, Germany, France and China for each year
