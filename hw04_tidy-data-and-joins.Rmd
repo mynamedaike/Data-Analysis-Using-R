@@ -72,6 +72,9 @@ kable(lifeExp_spreadByYear)
 
 ```
 
+I think it is more difficult to make a plot with the spread data than with the tidy data. The only way I can think of is the method used in Activity #2; however,
+it is cumbersome to do like that. 
+
 Activity #4
 
 - In Window functions, we formed a tibble with 24 rows: 2 per year, giving the country with both the lowest and highest life expectancy (in Asia). Take that table (or a similar one for all continents) and reshape it so you have one row per year or per year * continent combination.
@@ -228,7 +231,7 @@ department <- department %>%
 kable(department)
 ```
 
-**Join student table with department table**
+**Join student table with department table using different join functions**
 ```{r}
 student_inner_join <- student %>% 
   inner_join(department, by = "deptId")
@@ -260,3 +263,32 @@ Activity #3
 - Explore the base function merge(), which also does joins. Compare and contrast with dplyr joins.
 - Explore the base function match(), which is related to joins and merges, but is really more of a “table lookup”. Compare and contrast with a true join/merge.
 
+**Explore merge() using student and department table created in Activity #2**
+```{r}
+kable(student)
+kable(department)
+stu_dept1 <- merge(student, department)
+kable(stu_dept1)
+stu_dept2 <- merge(student, department, all = TRUE)
+kable(stu_dept2)
+stu_dept3 <- merge(student, department, by = "deptId", all.x = TRUE)
+kable(stu_dept3)
+stu_dept4 <- merge(student, department, by = "deptId", all.y = TRUE)
+kable(stu_dept4)
+```
+
+From the above tables, we can see that
+
+1. *merge(student, department)* is equivalent to inner join;
+2. *merge(student, department, all = TRUE)* is equivalent to full join;
+3. *merge(student, department, by = "deptId", all.x = TRUE)* is equivalent to left join;
+4. *merge(student, department, by = "deptId", all.y = TRUE)* is equivalent to right join.
+
+**Explore match() using student and department table created in Activity #2**
+```{r}
+x = c(1, 2, 3, 4, 5, 2, 4, 1)
+y = c(2, 3, 1, 4)
+match(x, y, 0)
+```
+
+From the above result, we can see that match(x, y, nomatch) returns the index of each element of Vector x in Vector y if it exists in y; else returns nomatch.

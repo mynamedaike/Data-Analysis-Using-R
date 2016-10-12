@@ -135,6 +135,8 @@ kable(lifeExp_spreadByYear)
 | Europe    |  64.40850|  66.70307|  68.53923|  69.73760|  70.77503|  71.93777|  72.80640|  73.64217|  74.44010|  75.50517|  76.70060|  77.64860|
 | Oceania   |  69.25500|  70.29500|  71.08500|  71.31000|  71.91000|  72.85500|  74.29000|  75.32000|  76.94500|  78.19000|  79.74000|  80.71950|
 
+I think it is more difficult to make a plot with the spread data than with the tidy data. The only way I can think of is the method used in Activity \#2; however, it is cumbersome to do like that.
+
 Activity \#4
 
 -   In Window functions, we formed a tibble with 24 rows: 2 per year, giving the country with both the lowest and highest life expectancy (in Asia). Take that table (or a similar one for all continents) and reshape it so you have one row per year or per year \* continent combination.
@@ -637,7 +639,7 @@ kable(department)
 |       7| Forest Sciences        | Justin Davies    |
 |       8| Mechanical Engineering | Peter Ogden      |
 
-**Join student table with department table**
+**Join student table with department table using different join functions**
 
 ``` r
 student_inner_join <- student %>% 
@@ -719,3 +721,118 @@ Activity \#3
 -   This is really an optional add-on to either of the previous activities.
 -   Explore the base function merge(), which also does joins. Compare and contrast with dplyr joins.
 -   Explore the base function match(), which is related to joins and merges, but is really more of a “table lookup”. Compare and contrast with a true join/merge.
+
+**Explore merge() using student and department table created in Activity \#2**
+
+``` r
+kable(student)
+```
+
+| name     | gender | nationality | degree   |  deptId|
+|:---------|:-------|:------------|:---------|-------:|
+| David    | male   | Canada      | PhD      |       4|
+| Jennifer | female | US          | Bachelor |       2|
+| Kevin    | male   | England     | Master   |       3|
+| Alice    | femal  | France      | Bachelor |       1|
+| Mike     | male   | Australia   | PhD      |       7|
+| Emma     | female | Singapore   | Master   |       6|
+| Xizhe    | male   | China       | PhD      |       5|
+| Anna     | female | New Zealand | Master   |      16|
+
+``` r
+kable(department)
+```
+
+|  deptId| deptName               | director         |
+|-------:|:-----------------------|:-----------------|
+|       1| Math                   | John Williams    |
+|       2| Physics                | Evan Poole       |
+|       3| Chemistry              | Luke Oliver      |
+|       4| Biology                | Liam Langdon     |
+|       5| Medicine               | Jonathan Lambert |
+|       6| Computer Science       | Brian Glover     |
+|       7| Forest Sciences        | Justin Davies    |
+|       8| Mechanical Engineering | Peter Ogden      |
+
+``` r
+stu_dept1 <- merge(student, department)
+kable(stu_dept1)
+```
+
+|  deptId| name     | gender | nationality | degree   | deptName         | director         |
+|-------:|:---------|:-------|:------------|:---------|:-----------------|:-----------------|
+|       1| Alice    | femal  | France      | Bachelor | Math             | John Williams    |
+|       2| Jennifer | female | US          | Bachelor | Physics          | Evan Poole       |
+|       3| Kevin    | male   | England     | Master   | Chemistry        | Luke Oliver      |
+|       4| David    | male   | Canada      | PhD      | Biology          | Liam Langdon     |
+|       5| Xizhe    | male   | China       | PhD      | Medicine         | Jonathan Lambert |
+|       6| Emma     | female | Singapore   | Master   | Computer Science | Brian Glover     |
+|       7| Mike     | male   | Australia   | PhD      | Forest Sciences  | Justin Davies    |
+
+``` r
+stu_dept2 <- merge(student, department, all = TRUE)
+kable(stu_dept2)
+```
+
+|  deptId| name     | gender | nationality | degree   | deptName               | director         |
+|-------:|:---------|:-------|:------------|:---------|:-----------------------|:-----------------|
+|       1| Alice    | femal  | France      | Bachelor | Math                   | John Williams    |
+|       2| Jennifer | female | US          | Bachelor | Physics                | Evan Poole       |
+|       3| Kevin    | male   | England     | Master   | Chemistry              | Luke Oliver      |
+|       4| David    | male   | Canada      | PhD      | Biology                | Liam Langdon     |
+|       5| Xizhe    | male   | China       | PhD      | Medicine               | Jonathan Lambert |
+|       6| Emma     | female | Singapore   | Master   | Computer Science       | Brian Glover     |
+|       7| Mike     | male   | Australia   | PhD      | Forest Sciences        | Justin Davies    |
+|       8| NA       | NA     | NA          | NA       | Mechanical Engineering | Peter Ogden      |
+|      16| Anna     | female | New Zealand | Master   | NA                     | NA               |
+
+``` r
+stu_dept3 <- merge(student, department, by = "deptId", all.x = TRUE)
+kable(stu_dept3)
+```
+
+|  deptId| name     | gender | nationality | degree   | deptName         | director         |
+|-------:|:---------|:-------|:------------|:---------|:-----------------|:-----------------|
+|       1| Alice    | femal  | France      | Bachelor | Math             | John Williams    |
+|       2| Jennifer | female | US          | Bachelor | Physics          | Evan Poole       |
+|       3| Kevin    | male   | England     | Master   | Chemistry        | Luke Oliver      |
+|       4| David    | male   | Canada      | PhD      | Biology          | Liam Langdon     |
+|       5| Xizhe    | male   | China       | PhD      | Medicine         | Jonathan Lambert |
+|       6| Emma     | female | Singapore   | Master   | Computer Science | Brian Glover     |
+|       7| Mike     | male   | Australia   | PhD      | Forest Sciences  | Justin Davies    |
+|      16| Anna     | female | New Zealand | Master   | NA               | NA               |
+
+``` r
+stu_dept4 <- merge(student, department, by = "deptId", all.y = TRUE)
+kable(stu_dept4)
+```
+
+|  deptId| name     | gender | nationality | degree   | deptName               | director         |
+|-------:|:---------|:-------|:------------|:---------|:-----------------------|:-----------------|
+|       1| Alice    | femal  | France      | Bachelor | Math                   | John Williams    |
+|       2| Jennifer | female | US          | Bachelor | Physics                | Evan Poole       |
+|       3| Kevin    | male   | England     | Master   | Chemistry              | Luke Oliver      |
+|       4| David    | male   | Canada      | PhD      | Biology                | Liam Langdon     |
+|       5| Xizhe    | male   | China       | PhD      | Medicine               | Jonathan Lambert |
+|       6| Emma     | female | Singapore   | Master   | Computer Science       | Brian Glover     |
+|       7| Mike     | male   | Australia   | PhD      | Forest Sciences        | Justin Davies    |
+|       8| NA       | NA     | NA          | NA       | Mechanical Engineering | Peter Ogden      |
+
+From the above tables, we can see that
+
+1.  *merge(student, department)* is equivalent to inner join;
+2.  *merge(student, department, all = TRUE)* is equivalent to full join;
+3.  *merge(student, department, by = "deptId", all.x = TRUE)* is equivalent to left join;
+4.  *merge(student, department, by = "deptId", all.y = TRUE)* is equivalent to right join.
+
+**Explore match() using student and department table created in Activity \#2**
+
+``` r
+x = c(1, 2, 3, 4, 5, 2, 4, 1)
+y = c(2, 3, 1, 4)
+match(x, y, 0)
+```
+
+    ## [1] 3 1 2 4 0 1 4 3
+
+From the above result, we can see that match(x, y, nomatch) returns the index of each element of Vector x in Vector y if it exists in y; else returns nomatch.
