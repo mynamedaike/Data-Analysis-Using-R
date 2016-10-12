@@ -1,0 +1,262 @@
+---
+title: 'Homework 04: Tidy data and joins'
+author: "Ke Dai"
+date: "2016/10/11"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Import gapminder, tidyverse and knitr
+```{r}
+library(gapminder)
+library(tidyverse)
+library(countrycode)
+library(geonames)
+library(knitr)
+```
+
+## General data reshaping and relationship to aggregation
+**Problem**: You have data in one “shape” but you wish it were in another. Usually this is because the alternative shape is superior for presenting a table, making a figure, or doing aggregation and statistical analysis.
+
+**Solution**: Reshape your data. For simple reshaping, gather() and spread() from tidyr will suffice. Do the thing that it possible / easier now that your data has a new shape.
+
+**Prompts**:
+
+Activity #1
+
+- Make you own cheatsheet similar to Tyler Rinker’s minimal guide to tidyr.
+
+Activity #2
+
+- Make a tibble with one row per year and columns for life expectancy for two or more countries.
+    + Use knitr::kable() to make this table look pretty in your rendered homework.
+    + Take advantage of this new data shape to scatterplot life expectancy for one country against that of another.
+```{r}
+lifeExp_spread <- gapminder %>% 
+  filter(country %in% c('China', 'Japan', 'Canada', 'Australia')) %>% 
+  select(year, country, lifeExp) %>% 
+  spread(key = country, value = lifeExp)
+
+kable(lifeExp_spread)
+
+lifeExp_spread %>% 
+  ggplot() +
+  geom_point(aes(x = year, y = Australia), color = 'red') +
+  geom_point(aes(x = year, y = Canada), color = 'orange') +
+  geom_point(aes(x = year, y = China), color = 'blue') +
+  geom_point(aes(x = year, y = Japan), color = 'green') +
+  labs(title = "Life Expectancy for Australia, Canada, China and Japan",
+       x = "Year", y = "Life Expectancy")
+```
+
+Activity #3
+
+- Compute some measure of life expectancy (mean? median? min? max?) for all possible combinations of continent and year. Reshape that to have one row per year and one variable for each continent. Or the other way around: one row per continent and one variable per year.
+    + Use knitr::kable() to make these tables look pretty in your rendered homework.
+    + Is there a plot that is easier to make with the data in this shape versis the usual form? If so (or you think so), try it! Reflect.
+```{r}
+lifeExp_cont_year <- gapminder %>% 
+  group_by(year, continent) %>% 
+  summarise(mean_lifeExp = mean(lifeExp))
+
+## Reshape lifeExp_cont_year to have one row per year and one variable for each continent.
+lifeExp_spreadByCont <- lifeExp_cont_year %>% 
+  spread(key = continent, value = mean_lifeExp)
+
+kable(lifeExp_spreadByCont)
+
+## Reshape lifeExp_cont_year to have one row per continent and one variable per year.
+lifeExp_spreadByYear <- lifeExp_cont_year %>% 
+  spread(key = year, value = mean_lifeExp)
+
+kable(lifeExp_spreadByYear)
+
+```
+
+Activity #4
+
+- In Window functions, we formed a tibble with 24 rows: 2 per year, giving the country with both the lowest and highest life expectancy (in Asia). Take that table (or a similar one for all continents) and reshape it so you have one row per year or per year * continent combination.
+```{r}
+## prepare the tibble with 24 rows: 2 per year, giving the country with both the lowest and highest life expectancy (in Asia).
+my_gap <- gapminder %>%
+  filter(continent == "Asia") %>%
+  select(year, country, lifeExp) %>%
+  group_by(year) %>%
+  filter(min_rank(desc(lifeExp)) < 2 | min_rank(lifeExp) < 2) %>% 
+  arrange(year)
+
+my_gap_spreadByCountry <- my_gap %>% 
+  spread(key = country, value = lifeExp)
+my_gap_spreadByCountry
+```
+Activity #5
+
+- Previous TA Andrew MacDonald has a nice data manipulation sampler. Make up a similar set of exercises for yourself, in the abstract or (even better) using Gapminder or other data, and solve them.
+
+## Join, merge, look up
+**Problem**: You have two data sources and you need info from both in one new data object.
+
+**Solution**: Perform a **join**, which borrows terminology from the database world, specifically SQL.
+
+**Prompts**:
+
+Activity #1
+
+- Create a second data frame, complementary to Gapminder. Join this with (part of) Gapminder using a dplyr join function and make some observations about the process and result. Explore the different types of joins. Examples of a second data frame you could build:
+    + One row per country, a country variable and one or more variables with extra info, such as language spoken, NATO membership, national animal, or capitol city. If you really want to be helpful, you could attempt to make a pull request to resolve this issue, where I would like to bring ISO country codes into the gapminder package.
+    + One row per continent, a continent variable and one or more variables with extra info, such as northern versus southern hemisphere.
+
+## join gapminder with a country information table    
+```{r}
+options(geonamesUsername = "ke_dai")
+
+countryInfo <- GNcountryInfo()
+
+country_df <- countryInfo %>% 
+  tbl_df %>% 
+  select(countryCode,
+         country = countryName,
+         capital,
+         languages,
+         area = areaInSqKm) %>% 
+  mutate(area = as.double(area))
+
+gapminder_code <- gapminder %>% 
+  mutate(countryCode = countrycode(country, "country.name", "iso2c"))
+
+gap_inner_join <- gapminder_code %>% 
+  inner_join(country_df, by = "countryCode")
+
+kable(head(gap_inner_join))
+
+gap_left_join <- gapminder_code %>% 
+  left_join(country_df, by = "countryCode")
+
+kable(head(gap_left_join))
+
+gap_right_join <- gapminder_code %>% 
+  right_join(country_df, by = "countryCode")
+
+kable(head(gap_right_join))
+
+gap_full_join <- gapminder_code %>% 
+  full_join(country_df, by = "countryCode")
+
+kable(head(gap_full_join))
+```
+
+## join gapminder with a continent information table
+```{r}
+continent <- tribble(
+  ~continent, ~position, 
+  "Africa", "south",
+  "Antarctica", "south",
+  "Asia", "north",
+  "Europe", "north",
+  "North America", "north",
+  "South America", "south",
+  "Oceania", "south")
+
+continent <- continent %>% 
+  mutate(continent = as.factor(continent),
+         position = as.factor(position))
+
+gap_cont <- gapminder %>% 
+  group_by(year, continent) %>% 
+  summarise(mean_gdpPercap = mean(gdpPercap),
+            mean_lifeExp = mean(lifeExp))
+
+gap_cont_inner_join <- gap_cont %>% 
+  inner_join(continent, by = "continent")
+
+kable(gap_cont_inner_join)
+
+gap_cont_left_join <- gap_cont %>% 
+  left_join(continent, by = "continent")
+
+kable(gap_cont_left_join)
+
+gap_cont_right_join <- gap_cont %>% 
+  right_join(continent, by = "continent")
+
+kable(gap_cont_right_join)
+
+gap_cont_full_join <- gap_cont %>% 
+  full_join(continent, by = "continent")
+
+kable(gap_cont_full_join)
+```
+
+Activity #2
+
+- Create your own cheatsheet patterned after mine but focused on something you care about more than comics! Inspirational examples:
+    + Pets I have owned + breed + friendly vs. unfriendly + ??. Join to a table of pet breed, including variables for furry vs not furry, mammal true or false, etc.
+    + Movies and studios….
+    + Athletes and teams….
+
+You will likely need to iterate between your data prep and your joining to make your explorations comprehensive and interesting. For example, you will want a specific amount (or lack) of overlap between the two data.frames, in order to demonstrate all the different joins. You will want both the data frames to be as small as possible, while still retaining the expository value.
+```{r}
+## create a student table
+
+student <- tribble(
+  ~name, ~gender, ~nationality, ~degree, ~deptId,
+  "David", "male", "Canada", "PhD", "04",
+  "Jennifer", "female", "US", "Bachelor", "02",
+  "Kevin", "male", "England", "Master", "03",
+  "Alice", "femal", "France", "Bachelor", "01",
+  "Mike", "male", "Australia", "PhD", "07",
+  "Emma", "female", "Singapore", "Master", "06",
+  "Xizhe", "male", "China", "PhD", "05",
+  "Anna", "female", "New Zealand", "Master", "16"
+)
+student <- student %>% 
+  mutate(degree = as.factor(degree), deptId = as.integer(deptId))
+kable(student)
+
+department <- tribble(
+  ~deptId, ~deptName, ~director,
+  "01", "Math", "John Williams", 
+  "02", "Physics", "Evan Poole",
+  "03", "Chemistry", "Luke Oliver",
+  "04", "Biology", "Liam Langdon", 
+  "05", "Medicine", "Jonathan Lambert",
+  "06", "Computer Science", "Brian Glover",
+  "07", "Forest Sciences", "Justin Davies",
+  "08", "Mechanical Engineering", "Peter Ogden"
+)
+department <- department %>% 
+  mutate(deptId = as.integer(deptId))
+kable(department)
+
+student_inner_join <- student %>% 
+  inner_join(department, by = "deptId")
+kable(student_inner_join)
+
+student_left_join <- student %>% 
+  left_join(department, by = "deptId")
+kable(student_left_join)
+
+student_right_join <- student %>% 
+  right_join(department, by = "deptId")
+kable(student_right_join)
+
+student_full_join <- student %>% 
+  full_join(department, by = "deptId")
+kable(student_full_join)
+```
+
+From the above tables, we can see that
+1. only matched rows are included using *inner_join()*; 
+2. all rows in the left table are included using *left_join()*;
+3. all rows in the right table are included using *right_join()*; 
+4. all rows in both tables are included using *full_join()*.
+
+Activity #3
+
+- This is really an optional add-on to either of the previous activities.
+- Explore the base function merge(), which also does joins. Compare and contrast with dplyr joins.
+- Explore the base function match(), which is related to joins and merges, but is really more of a “table lookup”. Compare and contrast with a true join/merge.
+
