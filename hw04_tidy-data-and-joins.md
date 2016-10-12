@@ -577,9 +577,9 @@ Activity \#2
 
 You will likely need to iterate between your data prep and your joining to make your explorations comprehensive and interesting. For example, you will want a specific amount (or lack) of overlap between the two data.frames, in order to demonstrate all the different joins. You will want both the data frames to be as small as possible, while still retaining the expository value.
 
-``` r
-## create a student table
+**Create a student table**
 
+``` r
 student <- tribble(
   ~name, ~gender, ~nationality, ~degree, ~deptId,
   "David", "male", "Canada", "PhD", "04",
@@ -606,6 +606,8 @@ kable(student)
 | Emma     | female | Singapore   | Master   |       6|
 | Xizhe    | male   | China       | PhD      |       5|
 | Anna     | female | New Zealand | Master   |      16|
+
+**Create a department table**
 
 ``` r
 department <- tribble(
@@ -634,6 +636,8 @@ kable(department)
 |       6| Computer Science       | Brian Glover     |
 |       7| Forest Sciences        | Justin Davies    |
 |       8| Mechanical Engineering | Peter Ogden      |
+
+**Join student table with department table**
 
 ``` r
 student_inner_join <- student %>% 

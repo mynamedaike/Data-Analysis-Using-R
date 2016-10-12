@@ -191,9 +191,9 @@ Activity #2
     + Athletes and teams….
 
 You will likely need to iterate between your data prep and your joining to make your explorations comprehensive and interesting. For example, you will want a specific amount (or lack) of overlap between the two data.frames, in order to demonstrate all the different joins. You will want both the data frames to be as small as possible, while still retaining the expository value.
-```{r}
-## create a student table
 
+**Create a student table**
+```{r}
 student <- tribble(
   ~name, ~gender, ~nationality, ~degree, ~deptId,
   "David", "male", "Canada", "PhD", "04",
@@ -208,7 +208,10 @@ student <- tribble(
 student <- student %>% 
   mutate(degree = as.factor(degree), deptId = as.integer(deptId))
 kable(student)
+```
 
+**Create a department table**
+```{r}
 department <- tribble(
   ~deptId, ~deptName, ~director,
   "01", "Math", "John Williams", 
@@ -223,7 +226,10 @@ department <- tribble(
 department <- department %>% 
   mutate(deptId = as.integer(deptId))
 kable(department)
+```
 
+**Join student table with department table**
+```{r}
 student_inner_join <- student %>% 
   inner_join(department, by = "deptId")
 kable(student_inner_join)
