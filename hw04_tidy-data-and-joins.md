@@ -183,8 +183,7 @@ Activity \#1
     -   One row per country, a country variable and one or more variables with extra info, such as language spoken, NATO membership, national animal, or capitol city. If you really want to be helpful, you could attempt to make a pull request to resolve this issue, where I would like to bring ISO country codes into the gapminder package.
     -   One row per continent, a continent variable and one or more variables with extra info, such as northern versus southern hemisphere.
 
-join gapminder with a country information table
------------------------------------------------
+**Join gapminder with a country information table**
 
 ``` r
 options(geonamesUsername = "ke_dai")
@@ -266,8 +265,7 @@ kable(head(gap_full_join))
 | Afghanistan | Asia      |  1972|   36.088|  13079460|   739.9811| AF          | Islamic Republic of Afghanistan | Kabul   | fa-AF,ps,uz-AF,tk |  647500|
 | Afghanistan | Asia      |  1977|   38.438|  14880372|   786.1134| AF          | Islamic Republic of Afghanistan | Kabul   | fa-AF,ps,uz-AF,tk |  647500|
 
-join gapminder with a continent information table
--------------------------------------------------
+**Join gapminder with a continent information table**
 
 ``` r
 continent <- tribble(
