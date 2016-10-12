@@ -90,7 +90,7 @@ my_gap <- gapminder %>%
 
 my_gap_spreadByCountry <- my_gap %>% 
   spread(key = country, value = lifeExp)
-my_gap_spreadByCountry
+kable(my_gap_spreadByCountry)
 ```
 Activity #5
 
@@ -249,9 +249,10 @@ kable(student_full_join)
 ```
 
 From the above tables, we can see that
-1. only matched rows are included using *inner_join()*; 
+
+1. only matched rows are included using *inner_join()*;
 2. all rows in the left table are included using *left_join()*;
-3. all rows in the right table are included using *right_join()*; 
+3. all rows in the right table are included using *right_join()*;
 4. all rows in both tables are included using *full_join()*.
 
 Activity #3

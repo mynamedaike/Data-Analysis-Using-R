@@ -154,28 +154,24 @@ my_gap <- gapminder %>%
 
 my_gap_spreadByCountry <- my_gap %>% 
   spread(key = country, value = lifeExp)
-my_gap_spreadByCountry
+kable(my_gap_spreadByCountry)
 ```
 
-    ## Source: local data frame [12 x 5]
-    ## Groups: year [12]
-    ## 
-    ##     year Afghanistan Cambodia Israel  Japan
-    ## *  <int>       <dbl>    <dbl>  <dbl>  <dbl>
-    ## 1   1952      28.801       NA  65.39     NA
-    ## 2   1957      30.332       NA  67.84     NA
-    ## 3   1962      31.997       NA  69.39     NA
-    ## 4   1967      34.020       NA     NA 71.430
-    ## 5   1972      36.088       NA     NA 73.420
-    ## 6   1977          NA    31.22     NA 75.380
-    ## 7   1982      39.854       NA     NA 77.110
-    ## 8   1987      40.822       NA     NA 78.670
-    ## 9   1992      41.674       NA     NA 79.360
-    ## 10  1997      41.763       NA     NA 80.690
-    ## 11  2002      42.129       NA     NA 82.000
-    ## 12  2007      43.828       NA     NA 82.603
-
-Activity \#5
+|     year|  Afghanistan|  Cambodia|  Israel|   Japan|
+|--------:|------------:|---------:|-------:|-------:|
+|     1952|       28.801|        NA|   65.39|      NA|
+|     1957|       30.332|        NA|   67.84|      NA|
+|     1962|       31.997|        NA|   69.39|      NA|
+|     1967|       34.020|        NA|      NA|  71.430|
+|     1972|       36.088|        NA|      NA|  73.420|
+|     1977|           NA|     31.22|      NA|  75.380|
+|     1982|       39.854|        NA|      NA|  77.110|
+|     1987|       40.822|        NA|      NA|  78.670|
+|     1992|       41.674|        NA|      NA|  79.360|
+|     1997|       41.763|        NA|      NA|  80.690|
+|     2002|       42.129|        NA|      NA|  82.000|
+|     2007|       43.828|        NA|      NA|  82.603|
+|  Activit|        y \#5|          |        |        |
 
 -   Previous TA Andrew MacDonald has a nice data manipulation sampler. Make up a similar set of exercises for yourself, in the abstract or (even better) using Gapminder or other data, and solve them.
 
@@ -716,7 +712,12 @@ kable(student_full_join)
 | Anna     | female | New Zealand | Master   |      16| NA                     | NA               |
 | NA       | NA     | NA          | NA       |       8| Mechanical Engineering | Peter Ogden      |
 
-From the above tables, we can see that 1. only matched rows are included using *inner\_join()*; 2. all rows in the left table are included using *left\_join()*; 3. all rows in the right table are included using *right\_join()*; 4. all rows in both tables are included using *full\_join()*.
+From the above tables, we can see that
+
+1.  only matched rows are included using *inner\_join()*;
+2.  all rows in the left table are included using *left\_join()*;
+3.  all rows in the right table are included using *right\_join()*;
+4.  all rows in both tables are included using *full\_join()*.
 
 Activity \#3
 
