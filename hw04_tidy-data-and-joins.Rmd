@@ -92,6 +92,7 @@ my_gap_spreadByCountry <- my_gap %>%
   spread(key = country, value = lifeExp)
 kable(my_gap_spreadByCountry)
 ```
+
 Activity #5
 
 - Previous TA Andrew MacDonald has a nice data manipulation sampler. Make up a similar set of exercises for yourself, in the abstract or (even better) using Gapminder or other data, and solve them.
