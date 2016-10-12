@@ -3,8 +3,8 @@ Homework 04: Tidy data and joins
 Ke Dai
 2016/10/11
 
-Import gapminder, tidyverse and knitr
--------------------------------------
+Import gapminder, tidyverse, countrycode, geonames and knitr
+------------------------------------------------------------
 
 ``` r
 library(gapminder)

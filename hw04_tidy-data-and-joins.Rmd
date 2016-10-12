@@ -9,7 +9,7 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Import gapminder, tidyverse and knitr
+## Import gapminder, tidyverse, countrycode, geonames and knitr
 ```{r}
 library(gapminder)
 library(tidyverse)
