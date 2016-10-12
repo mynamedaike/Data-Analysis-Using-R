@@ -825,7 +825,7 @@ From the above tables, we can see that
 3.  *merge(student, department, by = "deptId", all.x = TRUE)* is equivalent to left join;
 4.  *merge(student, department, by = "deptId", all.y = TRUE)* is equivalent to right join.
 
-**Explore match() using student and department table created in Activity \#2**
+**Explore match()**
 
 ``` r
 x = c(1, 2, 3, 4, 5, 2, 4, 1)
