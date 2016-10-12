@@ -43,10 +43,6 @@ General data reshaping and relationship to aggregation
 
 **Prompts**:
 
-Activity \#1
-
--   Make you own cheatsheet similar to Tyler Rinker’s minimal guide to tidyr.
-
 Activity \#2
 
 -   Make a tibble with one row per year and columns for life expectancy for two or more countries.
@@ -171,10 +167,6 @@ kable(my_gap_spreadByCountry)
 |  1997|       41.763|        NA|      NA|  80.690|
 |  2002|       42.129|        NA|      NA|  82.000|
 |  2007|       43.828|        NA|      NA|  82.603|
-
-Activity \#5
-
--   Previous TA Andrew MacDonald has a nice data manipulation sampler. Make up a similar set of exercises for yourself, in the abstract or (even better) using Gapminder or other data, and solve them.
 
 Join, merge, look up
 --------------------

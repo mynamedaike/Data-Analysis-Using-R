@@ -25,10 +25,6 @@ library(knitr)
 
 **Prompts**:
 
-Activity #1
-
-- Make you own cheatsheet similar to Tyler Rinker’s minimal guide to tidyr.
-
 Activity #2
 
 - Make a tibble with one row per year and columns for life expectancy for two or more countries.
@@ -92,10 +88,6 @@ my_gap_spreadByCountry <- my_gap %>%
   spread(key = country, value = lifeExp)
 kable(my_gap_spreadByCountry)
 ```
-
-Activity #5
-
-- Previous TA Andrew MacDonald has a nice data manipulation sampler. Make up a similar set of exercises for yourself, in the abstract or (even better) using Gapminder or other data, and solve them.
 
 ## Join, merge, look up
 **Problem**: You have two data sources and you need info from both in one new data object.
