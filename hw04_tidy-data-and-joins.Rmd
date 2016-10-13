@@ -107,6 +107,7 @@ Activity #1
 
 **Join gapminder with a country information table**  
 ```{r}
+## create a country information table
 options(geonamesUsername = "ke_dai")
 
 countryInfo <- GNcountryInfo()
@@ -120,24 +121,33 @@ country_df <- countryInfo %>%
          area = areaInSqKm) %>% 
   mutate(area = as.double(area))
 
+kable(head(country_df))
+
+## change country variable in gapminder to countryCode variable
 gapminder_code <- gapminder %>% 
   mutate(countryCode = countrycode(country, "country.name", "iso2c"))
 
+kable(head(gapminder_code))
+
+## inner join
 gap_inner_join <- gapminder_code %>% 
   inner_join(country_df, by = "countryCode")
 
 kable(head(gap_inner_join))
 
+## left join
 gap_left_join <- gapminder_code %>% 
   left_join(country_df, by = "countryCode")
 
 kable(head(gap_left_join))
 
+## right join
 gap_right_join <- gapminder_code %>% 
   right_join(country_df, by = "countryCode")
 
 kable(head(gap_right_join))
 
+## full join
 gap_full_join <- gapminder_code %>% 
   full_join(country_df, by = "countryCode")
 
@@ -146,6 +156,7 @@ kable(head(gap_full_join))
 
 **Join gapminder with a continent information table**
 ```{r}
+## create a continent information table
 continent <- tribble(
   ~continent, ~position, 
   "Africa", "south",
@@ -160,26 +171,35 @@ continent <- continent %>%
   mutate(continent = as.factor(continent),
          position = as.factor(position))
 
+kable(continent)
+
+## reshape gapminder to a table with one year and continent observation per row
 gap_cont <- gapminder %>% 
   group_by(year, continent) %>% 
   summarise(mean_gdpPercap = mean(gdpPercap),
             mean_lifeExp = mean(lifeExp))
 
+kable(gap_cont)
+
+## inner join
 gap_cont_inner_join <- gap_cont %>% 
   inner_join(continent, by = "continent")
 
 kable(gap_cont_inner_join)
 
+## left join
 gap_cont_left_join <- gap_cont %>% 
   left_join(continent, by = "continent")
 
 kable(gap_cont_left_join)
 
+## right join
 gap_cont_right_join <- gap_cont %>% 
   right_join(continent, by = "continent")
 
 kable(gap_cont_right_join)
 
+## full join
 gap_cont_full_join <- gap_cont %>% 
   full_join(continent, by = "continent")
 
@@ -233,18 +253,22 @@ kable(department)
 
 **Join student table with department table using different join functions**
 ```{r}
+## inner join
 student_inner_join <- student %>% 
   inner_join(department, by = "deptId")
 kable(student_inner_join)
 
+## left join
 student_left_join <- student %>% 
   left_join(department, by = "deptId")
 kable(student_left_join)
 
+## right join
 student_right_join <- student %>% 
   right_join(department, by = "deptId")
 kable(student_right_join)
 
+## full join
 student_full_join <- student %>% 
   full_join(department, by = "deptId")
 kable(student_full_join)

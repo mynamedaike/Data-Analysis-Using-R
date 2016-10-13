@@ -188,6 +188,7 @@ Activity \#1
 **Join gapminder with a country information table**
 
 ``` r
+## create a country information table
 options(geonamesUsername = "ke_dai")
 
 countryInfo <- GNcountryInfo()
@@ -201,9 +202,37 @@ country_df <- countryInfo %>%
          area = areaInSqKm) %>% 
   mutate(area = as.double(area))
 
+kable(head(country_df))
+```
+
+| countryCode | country                         | capital          | languages         |    area|
+|:------------|:--------------------------------|:-----------------|:------------------|-------:|
+| AD          | Principality of Andorra         | Andorra la Vella | ca                |     468|
+| AE          | United Arab Emirates            | Abu Dhabi        | ar-AE,fa,en,hi,ur |   82880|
+| AF          | Islamic Republic of Afghanistan | Kabul            | fa-AF,ps,uz-AF,tk |  647500|
+| AG          | Antigua and Barbuda             | Saint John’s e   | n-AG              |     443|
+| AI          | Anguilla                        | The Valley       | en-AI             |     102|
+| AL          | Republic of Albania             | Tirana           | sq,el             |   28748|
+
+``` r
+## change country variable in gapminder to countryCode variable
 gapminder_code <- gapminder %>% 
   mutate(countryCode = countrycode(country, "country.name", "iso2c"))
 
+kable(head(gapminder_code))
+```
+
+| country     | continent |  year|  lifeExp|       pop|  gdpPercap| countryCode |
+|:------------|:----------|-----:|--------:|---------:|----------:|:------------|
+| Afghanistan | Asia      |  1952|   28.801|   8425333|   779.4453| AF          |
+| Afghanistan | Asia      |  1957|   30.332|   9240934|   820.8530| AF          |
+| Afghanistan | Asia      |  1962|   31.997|  10267083|   853.1007| AF          |
+| Afghanistan | Asia      |  1967|   34.020|  11537966|   836.1971| AF          |
+| Afghanistan | Asia      |  1972|   36.088|  13079460|   739.9811| AF          |
+| Afghanistan | Asia      |  1977|   38.438|  14880372|   786.1134| AF          |
+
+``` r
+## inner join
 gap_inner_join <- gapminder_code %>% 
   inner_join(country_df, by = "countryCode")
 
@@ -220,6 +249,7 @@ kable(head(gap_inner_join))
 | Afghanistan | Asia      |  1977|   38.438|  14880372|   786.1134| AF          | Islamic Republic of Afghanistan | Kabul   | fa-AF,ps,uz-AF,tk |  647500|
 
 ``` r
+## left join
 gap_left_join <- gapminder_code %>% 
   left_join(country_df, by = "countryCode")
 
@@ -236,6 +266,7 @@ kable(head(gap_left_join))
 | Afghanistan | Asia      |  1977|   38.438|  14880372|   786.1134| AF          | Islamic Republic of Afghanistan | Kabul   | fa-AF,ps,uz-AF,tk |  647500|
 
 ``` r
+## right join
 gap_right_join <- gapminder_code %>% 
   right_join(country_df, by = "countryCode")
 
@@ -252,6 +283,7 @@ kable(head(gap_right_join))
 | Afghanistan | Asia      |  1967|   34.020|  11537966|   836.1971| AF          | Islamic Republic of Afghanistan | Kabul            | fa-AF,ps,uz-AF,tk |  647500|
 
 ``` r
+## full join
 gap_full_join <- gapminder_code %>% 
   full_join(country_df, by = "countryCode")
 
@@ -270,6 +302,7 @@ kable(head(gap_full_join))
 **Join gapminder with a continent information table**
 
 ``` r
+## create a continent information table
 continent <- tribble(
   ~continent, ~position, 
   "Africa", "south",
@@ -284,11 +317,94 @@ continent <- continent %>%
   mutate(continent = as.factor(continent),
          position = as.factor(position))
 
+kable(continent)
+```
+
+| continent     | position |
+|:--------------|:---------|
+| Africa        | south    |
+| Antarctica    | south    |
+| Asia          | north    |
+| Europe        | north    |
+| North America | north    |
+| South America | south    |
+| Oceania       | south    |
+
+``` r
+## reshape gapminder to a table with one year and continent observation per row
 gap_cont <- gapminder %>% 
   group_by(year, continent) %>% 
   summarise(mean_gdpPercap = mean(gdpPercap),
             mean_lifeExp = mean(lifeExp))
 
+kable(gap_cont)
+```
+
+|  year| continent |  mean\_gdpPercap|  mean\_lifeExp|
+|-----:|:----------|----------------:|--------------:|
+|  1952| Africa    |         1252.572|       39.13550|
+|  1952| Americas  |         4079.063|       53.27984|
+|  1952| Asia      |         5195.484|       46.31439|
+|  1952| Europe    |         5661.057|       64.40850|
+|  1952| Oceania   |        10298.086|       69.25500|
+|  1957| Africa    |         1385.236|       41.26635|
+|  1957| Americas  |         4616.044|       55.96028|
+|  1957| Asia      |         5787.733|       49.31854|
+|  1957| Europe    |         6963.013|       66.70307|
+|  1957| Oceania   |        11598.522|       70.29500|
+|  1962| Africa    |         1598.079|       43.31944|
+|  1962| Americas  |         4901.542|       58.39876|
+|  1962| Asia      |         5729.370|       51.56322|
+|  1962| Europe    |         8365.487|       68.53923|
+|  1962| Oceania   |        12696.452|       71.08500|
+|  1967| Africa    |         2050.364|       45.33454|
+|  1967| Americas  |         5668.253|       60.41092|
+|  1967| Asia      |         5971.173|       54.66364|
+|  1967| Europe    |        10143.824|       69.73760|
+|  1967| Oceania   |        14495.022|       71.31000|
+|  1972| Africa    |         2339.616|       47.45094|
+|  1972| Americas  |         6491.334|       62.39492|
+|  1972| Asia      |         8187.469|       57.31927|
+|  1972| Europe    |        12479.575|       70.77503|
+|  1972| Oceania   |        16417.333|       71.91000|
+|  1977| Africa    |         2585.939|       49.58042|
+|  1977| Americas  |         7352.007|       64.39156|
+|  1977| Asia      |         7791.314|       59.61056|
+|  1977| Europe    |        14283.979|       71.93777|
+|  1977| Oceania   |        17283.958|       72.85500|
+|  1982| Africa    |         2481.593|       51.59287|
+|  1982| Americas  |         7506.737|       66.22884|
+|  1982| Asia      |         7434.135|       62.61794|
+|  1982| Europe    |        15617.897|       72.80640|
+|  1982| Oceania   |        18554.710|       74.29000|
+|  1987| Africa    |         2282.669|       53.34479|
+|  1987| Americas  |         7793.400|       68.09072|
+|  1987| Asia      |         7608.227|       64.85118|
+|  1987| Europe    |        17214.311|       73.64217|
+|  1987| Oceania   |        20448.040|       75.32000|
+|  1992| Africa    |         2281.810|       53.62958|
+|  1992| Americas  |         8044.934|       69.56836|
+|  1992| Asia      |         8639.690|       66.53721|
+|  1992| Europe    |        17061.568|       74.44010|
+|  1992| Oceania   |        20894.046|       76.94500|
+|  1997| Africa    |         2378.760|       53.59827|
+|  1997| Americas  |         8889.301|       71.15048|
+|  1997| Asia      |         9834.093|       68.02052|
+|  1997| Europe    |        19076.782|       75.50517|
+|  1997| Oceania   |        24024.175|       78.19000|
+|  2002| Africa    |         2599.385|       53.32523|
+|  2002| Americas  |         9287.677|       72.42204|
+|  2002| Asia      |        10174.090|       69.23388|
+|  2002| Europe    |        21711.732|       76.70060|
+|  2002| Oceania   |        26938.778|       79.74000|
+|  2007| Africa    |         3089.033|       54.80604|
+|  2007| Americas  |        11003.032|       73.60812|
+|  2007| Asia      |        12473.027|       70.72848|
+|  2007| Europe    |        25054.482|       77.64860|
+|  2007| Oceania   |        29810.188|       80.71950|
+
+``` r
+## inner join
 gap_cont_inner_join <- gap_cont %>% 
   inner_join(continent, by = "continent")
 ```
@@ -352,6 +468,7 @@ kable(gap_cont_inner_join)
 |  2007| Oceania   |        29810.188|       80.71950| south    |
 
 ``` r
+## left join
 gap_cont_left_join <- gap_cont %>% 
   left_join(continent, by = "continent")
 ```
@@ -427,6 +544,7 @@ kable(gap_cont_left_join)
 |  2007| Oceania   |        29810.188|       80.71950| south    |
 
 ``` r
+## right join
 gap_cont_right_join <- gap_cont %>% 
   right_join(continent, by = "continent")
 ```
@@ -493,6 +611,7 @@ kable(gap_cont_right_join)
 |  2007| Oceania       |        29810.188|       80.71950| south    |
 
 ``` r
+## full join
 gap_cont_full_join <- gap_cont %>% 
   full_join(continent, by = "continent")
 ```
@@ -642,6 +761,7 @@ kable(department)
 **Join student table with department table using different join functions**
 
 ``` r
+## inner join
 student_inner_join <- student %>% 
   inner_join(department, by = "deptId")
 kable(student_inner_join)
@@ -658,6 +778,7 @@ kable(student_inner_join)
 | Xizhe    | male   | China       | PhD      |       5| Medicine         | Jonathan Lambert |
 
 ``` r
+## left join
 student_left_join <- student %>% 
   left_join(department, by = "deptId")
 kable(student_left_join)
@@ -675,6 +796,7 @@ kable(student_left_join)
 | Anna     | female | New Zealand | Master   |      16| NA               | NA               |
 
 ``` r
+## right join
 student_right_join <- student %>% 
   right_join(department, by = "deptId")
 kable(student_right_join)
@@ -692,6 +814,7 @@ kable(student_right_join)
 | NA       | NA     | NA          | NA       |       8| Mechanical Engineering | Peter Ogden      |
 
 ``` r
+## full join
 student_full_join <- student %>% 
   full_join(department, by = "deptId")
 kable(student_full_join)
