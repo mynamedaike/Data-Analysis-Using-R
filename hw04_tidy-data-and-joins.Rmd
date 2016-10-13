@@ -229,7 +229,7 @@ student <- tribble(
   "Anna", "female", "New Zealand", "Master", "16"
 )
 student <- student %>% 
-  mutate(degree = as.factor(degree), deptId = as.integer(deptId))
+  mutate(gender = as.factor(gender), degree = as.factor(degree), deptId = as.integer(deptId))
 kable(student)
 ```
 
