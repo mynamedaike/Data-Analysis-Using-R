@@ -561,3 +561,12 @@ kable(my_gap)
 | Canada        | Americas  |  2007|   80.653|    33390141|  36319.235| ice hockey   |
 | China         | Asia      |  2007|   72.961|  1318683096|   4959.115| table tennis |
 | United States | Americas  |  2007|   78.242|   301139947|  42951.653| football     |
+
+Report your process
+-------------------
+
+You’re encouraged to reflect on what was hard/easy, problems you solved, helpful tutorials you read, etc. Give credit to your sources, whether it’s a blog post, a fellow student, an online tutorial, etc.
+
+Except the "Clean up your repo!" part, I think nothing is too hard. I learned all the related knowledge through the book *R for Data Science*, the topic pages of STAT 545 and lectures. When I encountered something I do not know or I am not sure, I just tried to find the answer or solution on the internet.
+
+For the "Clean up your repo!" part, I am confused about which files I should remove.
