@@ -32,8 +32,8 @@ Initially, when I tried to create a project by version control, it does not work
 
 |    **Links**   |
 |----------------|
-| [](hw01_gapminder.md) |
-| [](hw02_explore-gapminder-and-use-dplyr.md) |
-| [](hw03_use-dplyr-to-manipulate-and-explore-data.md) |
-| [](hw04_tidy-data-and-joins.md) |
-| [](hw05_factor-and-figure-management.md) |
+| *[](hw01_gapminder.md) |
+| *[](hw02_explore-gapminder-and-use-dplyr.md) |
+| *[](hw03_use-dplyr-to-manipulate-and-explore-data.md) |
+| *[](hw04_tidy-data-and-joins.md) |
+| *[](hw05_factor-and-figure-management.md) |
