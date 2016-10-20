@@ -72,11 +72,14 @@ gap_arranged <- gap_euro %>%
 
 
 ```{r}
-kable(gap_euro)
+## original data set
+kable(gap_euro[1:20, ])
 
-kable(gap_reordered)
+## reordered data set
+kable(gap_reordered[1:20, ])
 
-kable(gap_arranged)
+## arranged data set
+kable(gap_arranged[1:20, ])
 ```
 
 From the three tables above, we can see that the output table of the reordered data set is the same as the original table. However, the rows of the arranged data set are ordered according to the values of the specified veriable.
@@ -107,7 +110,7 @@ gap_reordered_and_arranged <- gap_euro %>%
   mutate(country = reorder(country, gdpPercap, mean))  %>% 
   arrange(gdpPercap)
 
-kable(gap_reordered_and_arranged)
+kable(gap_reordered_and_arranged[1:20, ])
 
 gap_reordered_and_arranged %>% 
   ggplot(aes(x = gdpPercap, y = country, color = year)) +
