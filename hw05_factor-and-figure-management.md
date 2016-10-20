@@ -1217,7 +1217,7 @@ From the three tables above, we can see that the output table of the reordered d
 gap_euro %>% 
   ggplot(aes(x = gdpPercap, y = country, color = year)) +
   geom_point() +
-  labs(title = "Figure 1 The GDP per capita for all European countries from 1952 to 2007")
+  labs(title = "The GDP per capita for all European countries from 1952 to 2007")
 ```
 
 ![](hw05_factor-and-figure-management_files/figure-markdown_github/unnamed-chunk-7-1.png)
@@ -1226,7 +1226,7 @@ gap_euro %>%
 gap_reordered %>% 
   ggplot(aes(x = gdpPercap, y = country, color = year)) +
   geom_point() +
-  labs(title = "Figure 2 The average GDP per capita for all European countries over the years between 1952 and 2007")
+  labs(title = "The GDP per capita for all European countries from 1952 to 2007")
 ```
 
 ![](hw05_factor-and-figure-management_files/figure-markdown_github/unnamed-chunk-7-2.png)
@@ -1235,7 +1235,7 @@ gap_reordered %>%
 gap_arranged %>% 
   ggplot(aes(x = gdpPercap, y = country, color = year)) +
   geom_point() +
-  labs(title = "Figure 3 The average GDP per capita for all European countries over the years between 1952 and 2007")
+  labs(title = "The GDP per capita for all European countries from 1952 to 2007")
 ```
 
 ![](hw05_factor-and-figure-management_files/figure-markdown_github/unnamed-chunk-7-3.png)
@@ -1619,7 +1619,7 @@ kable(gap_reordered_and_arranged)
 gap_reordered_and_arranged %>% 
   ggplot(aes(x = gdpPercap, y = country, color = year)) +
   geom_point() +
-  labs(title = "Figure 4 The average GDP per capita for all European countries over the years between 1952 and 2007")
+  labs(title = "The GDP per capita for all European countries from 1952 to 2007")
 ```
 
 ![](hw05_factor-and-figure-management_files/figure-markdown_github/unnamed-chunk-8-1.png)

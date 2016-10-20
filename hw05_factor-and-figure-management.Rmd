@@ -85,17 +85,17 @@ From the three tables above, we can see that the output table of the reordered d
 gap_euro %>% 
   ggplot(aes(x = gdpPercap, y = country, color = year)) +
   geom_point() +
-  labs(title = "Figure 1 The GDP per capita for all European countries from 1952 to 2007")
+  labs(title = "The GDP per capita for all European countries from 1952 to 2007")
 
 gap_reordered %>% 
   ggplot(aes(x = gdpPercap, y = country, color = year)) +
   geom_point() +
-  labs(title = "Figure 2 The average GDP per capita for all European countries over the years between 1952 and 2007")
+  labs(title = "The GDP per capita for all European countries from 1952 to 2007")
 
 gap_arranged %>% 
   ggplot(aes(x = gdpPercap, y = country, color = year)) +
   geom_point() +
-  labs(title = "Figure 3 The average GDP per capita for all European countries over the years between 1952 and 2007")
+  labs(title = "The GDP per capita for all European countries from 1952 to 2007")
 ```
 
 From the three figures above, we can see that the output figure of the arranged data set is the same as the orignial figure. However, the levels of country of the reordered data set are ordered according to the values of gdpPercap.
@@ -112,7 +112,7 @@ kable(gap_reordered_and_arranged)
 gap_reordered_and_arranged %>% 
   ggplot(aes(x = gdpPercap, y = country, color = year)) +
   geom_point() +
-  labs(title = "Figure 4 The average GDP per capita for all European countries over the years between 1952 and 2007")
+  labs(title = "The GDP per capita for all European countries from 1952 to 2007")
 ```
 
 Now we can see that the rows of the table above are ordered according to the values of gdpPercap. Meanwhile, the levels of country are also ordered according to the mean values of gdpPercap for each country from 1952 to 2007. So arrange() and reorder() are suitable for different situations respectively. Specifically, arrange() is mainly used for displaying a data set using a table while reorder() is mainly used for displaying a data set using a figure.
