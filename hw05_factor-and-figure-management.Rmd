@@ -252,3 +252,27 @@ ggsave("figure4.png", dpi = 300)
 ggsave("figure5.png", plot = originalFigure)
 ```
 ![Figure 5](figure5.png)
+
+## But I want to do more!
+Make a deeper exploration of the forcats packages, i.e. try more of the factor level reordering functions.
+
+Revalue a factor
+
+Pick a handful of countries, each of which you can associate with a stereotypical food (or any other non-controversial thing … sport? hobby? type of music, art or dance? animal? landscape feature?). Create an excerpt of the Gapminder data, filtered to just these countries. Create a new factor – you pick the name! – by mapping the existing country factor levels to the new levels.
+Examples: Italy –> wine, Germany –> beer, Japan –> sake. (Austria, Germany) –> German, (Mexico, Spain) –> Spanish, (Portugal, Brazil) –> Portuguese. Let your creativity flourish.
+
+```{r}
+## create a new excerpt of the Gapminder data
+my_gap <- gapminder %>% 
+  filter(country %in% c("China", "United States", "Canada", "Brazil"), year == "2007")
+kable(my_gap)
+
+## map each country to its popular sport
+my_gap <- my_gap %>% 
+  mutate(popSport = fct_recode(country, 
+                               "soccer" = "Brazil", 
+                               "ice hockey" = "Canada", 
+                               "table tennis" = "China", 
+                               "football" = "United States"))
+kable(my_gap)
+```

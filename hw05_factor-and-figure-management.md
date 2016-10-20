@@ -520,3 +520,44 @@ ggsave("figure5.png", plot = originalFigure)
     ## Saving 7 x 5 in image
 
 ![Figure 5](figure5.png)
+
+But I want to do more!
+----------------------
+
+Make a deeper exploration of the forcats packages, i.e. try more of the factor level reordering functions.
+
+Revalue a factor
+
+Pick a handful of countries, each of which you can associate with a stereotypical food (or any other non-controversial thing … sport? hobby? type of music, art or dance? animal? landscape feature?). Create an excerpt of the Gapminder data, filtered to just these countries. Create a new factor – you pick the name! – by mapping the existing country factor levels to the new levels. Examples: Italy –&gt; wine, Germany –&gt; beer, Japan –&gt; sake. (Austria, Germany) –&gt; German, (Mexico, Spain) –&gt; Spanish, (Portugal, Brazil) –&gt; Portuguese. Let your creativity flourish.
+
+``` r
+## create a new excerpt of the Gapminder data
+my_gap <- gapminder %>% 
+  filter(country %in% c("China", "United States", "Canada", "Brazil"), year == "2007")
+kable(my_gap)
+```
+
+| country       | continent |  year|  lifeExp|         pop|  gdpPercap|
+|:--------------|:----------|-----:|--------:|-----------:|----------:|
+| Brazil        | Americas  |  2007|   72.390|   190010647|   9065.801|
+| Canada        | Americas  |  2007|   80.653|    33390141|  36319.235|
+| China         | Asia      |  2007|   72.961|  1318683096|   4959.115|
+| United States | Americas  |  2007|   78.242|   301139947|  42951.653|
+
+``` r
+## map each country to its popular sport
+my_gap <- my_gap %>% 
+  mutate(popSport = fct_recode(country, 
+                               "soccer" = "Brazil", 
+                               "ice hockey" = "Canada", 
+                               "table tennis" = "China", 
+                               "football" = "United States"))
+kable(my_gap)
+```
+
+| country       | continent |  year|  lifeExp|         pop|  gdpPercap| popSport     |
+|:--------------|:----------|-----:|--------:|-----------:|----------:|:-------------|
+| Brazil        | Americas  |  2007|   72.390|   190010647|   9065.801| soccer       |
+| Canada        | Americas  |  2007|   80.653|    33390141|  36319.235| ice hockey   |
+| China         | Asia      |  2007|   72.961|  1318683096|   4959.115| table tennis |
+| United States | Americas  |  2007|   78.242|   301139947|  42951.653| football     |
