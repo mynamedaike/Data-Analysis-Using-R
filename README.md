@@ -30,12 +30,10 @@ Initially, when I tried to create a project by version control, it does not work
 
 ## Content Index
 
-* [Homework 01](https://github.com/STAT545-UBC/dai_ke/blob/master/hw01_gapminder.md)
-
-* [Homework 02](https://github.com/STAT545-UBC/dai_ke/blob/master/hw02_explore-gapminder-and-use-dplyr.md)
-
-* [Homework 03](https://github.com/STAT545-UBC/dai_ke/blob/master/hw03_use-dplyr-to-manipulate-and-explore-data.md)
-
-* [Homework 04](https://github.com/STAT545-UBC/dai_ke/blob/master/hw04_tidy-data-and-joins.md)
-
-* [Homework 05](https://github.com/STAT545-UBC/dai_ke/blob/master/hw05_factor-and-figure-management.md)
+|    **Links**   |
+|----------------|
+| [](hw01_gapminder.md) |
+| [](hw02_explore-gapminder-and-use-dplyr.md) |
+| [](hw03_use-dplyr-to-manipulate-and-explore-data.md) |
+| [](hw04_tidy-data-and-joins.md) |
+| [](hw05_factor-and-figure-management.md) |
