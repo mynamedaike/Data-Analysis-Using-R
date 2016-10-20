@@ -30,10 +30,10 @@ Initially, when I tried to create a project by version control, it does not work
 
 ## Content Index
 
-|    **Homework**    | **Links** |
-|--------------------|-----------|
-|    Homework 01     | ![](hw01_gapminder.md) |
-|    Homework 02     | ![](hw02_explore-gapminder-and-use-dplyr.md) |
-|    Homework 03     | ![](hw03_use-dplyr-to-manipulate-and-explore-data.md) |
-|    Homework 04     | ![](hw04_tidy-data-and-joins.md) |
-|    Homework 05     | ![](hw05_factor-and-figure-management.md) |
+| **Links** |
+|-----------|
+| ![Homework 01](hw01_gapminder.md) |
+| ![Homework 02](hw02_explore-gapminder-and-use-dplyr.md) |
+| ![Homework 03](hw03_use-dplyr-to-manipulate-and-explore-data.md) |
+| ![Homework 04](hw04_tidy-data-and-joins.md) |
+| ![Homework 05](hw05_factor-and-figure-management.md) |
