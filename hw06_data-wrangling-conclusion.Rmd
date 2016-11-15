@@ -1,0 +1,404 @@
+---
+title: 'Homework 06: Data wrangling conclusion'
+author: "Ke Dai"
+date: "2016/11/13"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Import tidyverse, stringr
+```{r}
+library(tidyverse)
+library(stringr)
+library(gapminder)
+library(ggplot2)
+```
+
+## Character data
+### 14.2.5 Exercises
+
+#### 1. In code that doesn’t use stringr, you’ll often see paste() and paste0(). What’s the difference between the two functions? What stringr function are they equivalent to? How do the functions differ in their handling of NA?
+```{r}
+months <- c(
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+)
+months <- factor(months)
+paste(months[1], months[2], months[3])
+paste(months[1], months[2], months[3], sep = "")
+paste0(months[1], months[2], months[3])
+str_c(months[1], months[2], months[3])
+paste(months[1], months[2], months[3], NA)
+paste0(months[1], months[2], months[3], NA)
+str_c(months[1], months[2], months[3], NA)
+```
+
+From the above experiments, we can see that paste0(..., collapse) is equivalent to paste(..., sep = "", collapse). These two functions are equivalent to str_c() function. Paste() and paste0() coerces NA character(the character missing value) to "NA" while str_c() returns NA when one of concatenated terms is NA in terms of their handling of NA.
+
+#### 2. In your own words, describe the difference between the sep and collapse arguments to str_c().
+```{r}
+str_c("a", "b", "c", sep = ", ")
+str_c(c("a", "b", "c"), collapse = ", ")
+```
+Sep specifies a character string to separate individual strings while collapse specifies a character string to separate a string vector.
+
+#### 3. Use str_length() and str_sub() to extract the middle character from a string. What will you do if the string has an even number of characters?
+```{r}
+middleChar <- function(string) {
+  stopifnot(is.character(string))
+  charLength <- str_length(string)
+  if(charLength %% 2 == 0) {
+    str_sub(string, charLength %/% 2, charLength %/% 2 + 1)
+  } else {
+    str_sub(string, (charLength + 1) %/% 2, (charLength + 1) %/% 2)
+  }
+}
+middleChar("apple")
+middleChar("banana")
+```
+If the string has an even number of characters, extract the middle two characters from the string as shown in the middleChar function above.
+
+#### 4. What does str_wrap() do? When might you want to use it?
+```{r}
+text <- "Regexps are a very terse language that allow you to describe patterns in strings. They take a little while to get your head around, but once you understand them, you’ll find them extremely useful."
+
+cat(str_wrap(text, width = 80, indent = 4))
+```
+
+As shown above, str_wrap() is used to wrap strings into nicely formatted paragraphs. You can set the line width by specifying the width argument a positive integer value, and set the indentation of first line and following lines in each paragraph by specifying the indent and exdent arguments.
+
+#### 5. What does str_trim() do? What’s the opposite of str_trim()?
+```{r}
+str_trim(" apple   ")
+str_pad("apple", 9, "both")
+```
+
+As shown above, str_trim() is used to trim whitespace from start and end of string. The opposite of str_trim() is str_pad() which is used to pad a string with whitespace or other characters.
+
+#### 6. Write a function that turns (e.g.) a vector c("a", "b", "c") into the string a, b, and c. Think carefully about what it should do if given a vector of length 0, 1, or 2.
+```{r}
+vecToStr <- function(vec) {
+  stopifnot(is.vector(vec))
+  for (i in vec) {
+    
+  }
+}
+a <- c("a", "b", "c")
+```
+
+### 14.3.1.1 Exercises
+#### 1. Explain why each of these strings don’t match a \: "\", "\\", "\\\".
+
+"\" is used as an escape character in regular expressions. To match a literal "\", you need to escape it, creating the regular expression "\\". To create that regular expression, you need to use a string, which also needs to escape "\". That means to match a literal "\" you need to write "\\\\" — you need four backslashes to match one!
+
+#### 2. How would you match the sequence "'\?
+```{r}
+x <- "ab\"'\\c"
+writeLines(x)
+str_detect(x, "\"'\\\\")
+```
+As shown above, we can use "\"'\\\\" to match "'\.
+
+#### 3. What patterns will the regular expression \..\..\.. match? How would you represent it as a string?
+```{r}
+x <- "wer.a.3.$wer"
+writeLines(x)
+str_detect(x, "\\..\\..\\..")
+```
+As shown above, the regular expression \..\..\.. match a pattern like .x.x.x(x represents any character except a newline). We can represent this regular expression with "\\..\\..\\..".
+
+### 14.3.2.1 Exercises
+#### 1. How would you match the literal string "$^$"?
+```{r}
+x <- "$^$"
+str_detect(x, "^\\$\\^\\$$")
+```
+As shown above, we can use "^\\$\\^\\$$" to match the literal string "$^$".
+
+#### 2. Given the corpus of common words in stringr::words, create regular expressions that find all words that:
+1. Start with “y”.
+2. End with “x”
+3. Are exactly three letters long. (Don’t cheat by using str_length()!)
+4. Have seven letters or more.
+Since this list is long, you might want to use the match argument to str_view() to show only the matching or non-matching words.
+
+```{r}
+## Start with "y"
+str_subset(words, "^y")
+
+## End with "x"
+str_subset(words, "x$")
+
+## Are exactly three letters long.
+str_subset(words, "^...$")
+
+## Are exactly three letters long.
+str_subset(words, "^.{7,}$")
+```
+
+### 14.3.3.1 Exercises
+#### 1. Create regular expressions to find all words that:
+
+1. Start with a vowel.
+
+2. That only contain consonants. (Hint: thinking about matching “not”-vowels.)
+
+3. End with ed, but not with eed.
+
+4. End with ing or ise.
+
+```{r}
+x <- c("apple", "bcd", "Ted", "feed", "feeling", "rise")
+
+## start with a vowel
+str_subset(x, "^[aeiou]")
+
+## That only contain consonants
+str_subset(x, "^[^aeiou]+$")
+
+## End with ed, but not with eed
+str_subset(x, "[^e]ed$")
+
+## End with ing or ise
+str_subset(x, "ing|ise$")
+```
+
+#### 2. Empirically verify the rule “i before e except after c”.
+```{r}
+x <- c("aie", "bie", "cie")
+str_subset(x, ".*[^c]ie.*")
+```
+
+#### 3. Is “q” always followed by a “u”?
+```{r}
+
+```
+
+#### 4. Write a regular expression that matches a word if it’s probably written in British English, not American English.
+```{r}
+x <- c("colour", "color")
+str_subset(x, "our$")
+```
+
+#### 5. Create a regular expression that will match telephone numbers as commonly written in your country.
+```{r}
+x <- "778-453-8934"
+str_subset(x, "^\\d{3}-\\d{3}-\\d{4}$")
+```
+
+### 14.3.4.1 Exercises
+#### 1. Describe the equivalents of ?, +, * in {m,n} form.
+? is equivalent to {0,1}. + is equivalent to {1,}. * is equivalent to {0,}.
+
+#### 2. Describe in words what these regular expressions match: (read carefully to see if I’m using a regular expression or a string that defines a regular expression.)
+
+1. ^.*$
+2. "\\{.+\\}"
+3. \d{4}-\d{2}-\d{2}
+4. "\\\\{4}"
+
+```{r}
+x <- c("re#$%wt3@*25&%45", "{a}", "1234-23-56", "\\\\\\\\")
+
+str_subset(x, "^.*$")
+
+str_subset(x, "\\{.+\\}")
+
+str_subset(x, "\\d{4}-\\d{2}-\\d{2}")
+
+str_subset(x, "\\\\{4}")
+```
+
+#### 3. Create regular expressions to find all words that:
+
+1. Start with three consonants.
+2. Have three or more vowels in a row.
+3. Have two or more vowel-consonant pairs in a row.
+
+```{r}
+## Start with three consonants
+str_subset(words, "^[^aeiou]{3}")
+
+## Have three or more vowels in a row
+
+
+## Have two or more vowel-consonant pairs in a row
+
+```
+
+#### 4. Solve the beginner regexp crosswords at https://regexcrossword.com/challenges/beginner.
+
+### 14.3.5.1 Exercises
+#### 1. Describe, in words, what these expressions will match:
+
+1. (.)\1\1
+2. "(.)(.)\\2\\1"
+3. (..)\1
+4. "(.).\\1.\\1"
+5. "(.)(.)(.).*\\3\\2\\1"
+
+```{r}
+x <- c("aaa", "baaaa", "abab", "abaca", "abcdcccccc")
+str_subset(x, "(.)\\1\\1")
+str_subset(x, "(.)(.)\\2\\1")
+str_subset(x, "(..)\\1")
+str_subset(x, "(.).\\1.\\1")
+str_subset(x, "(.)(.)(.).*\\3\\2\\1")
+```
+
+As shown above, (.)\1\1 matches a pattern like aaa; "(.)(.)\\2\\1" matches a pattern like baaaa; (..)\1 matches a pattern like abab; "(.).\\1.\\1" matches a pattern like abaca; "(.)(.)(.).*\\3\\2\\1" matches a pattern like abcdcccccc(a, b, c and d can be any different letters).
+
+#### 2. Construct regular expressions to match words that:
+
+1. Start and end with the same character.
+
+2. Contain a repeated pair of letters (e.g. “church” contains “ch” repeated twice.)
+
+3. Contain one letter repeated in at least three places (e.g. “eleven” contains three “e”s.)
+
+```{r}
+x <- c("abca", "church", "eleven")
+str_subset(x, "^(\\w)\\w*\\1$")
+str_subset(x, "(\\w{2})\\w*\\1")
+str_subset(x, "(\\w)\\w*\\1\\w*\\1")
+```
+
+### 14.4.2 Exercises
+#### 1. For each of the following challenges, try solving it by using both a single regular expression, and a combination of multiple str_detect() calls.
+
+1. Find all words that start or end with x.
+
+2. Find all words that start with a vowel and end with a consonant.
+
+3. Are there any words that contain at least one of each different vowel?
+
+```{r}
+## Find all words that start or end with x
+x <- c("box", "x-ray")
+df <- tibble(
+  x = x,
+  i = seq_along(x)
+)
+
+str_subset(x, "^x|x$")
+
+## Find all words that start with a vowel and end with a consonant.
+str_subset(words, "^[aeiou]\\w*[^aeiou]$")
+
+## Are there any words that contain at least one of each different vowel?
+
+```
+
+#### What word has the highest number of vowels? What word has the highest proportion of vowels? (Hint: what is the denominator?)
+
+### 14.4.3.1 Exercises
+#### 1. In the previous example, you might have noticed that the regular expression matched “flickered”, which is not a colour. Modify the regex to fix the problem.
+
+#### 2. From the Harvard sentences data, extract:
+1. The first word from each sentence.
+2. All words ending in ing.
+3. All plurals.
+```{r}
+## The first word from each sentence
+first_words <- str_extract(sentences, "^[A-Za-z']+")
+first_words
+
+## All words ending in ing
+has_ing <- str_subset(sentences, "\\w+ing")
+ing_words <- str_extract(has_ing, "\\w+ing")
+ing_words
+
+## All plurals 
+## For plurals, I think it's difficult to extract all plurals because there are many irregular plurals and the third person singular form of the verbs also end with s.
+has_plurals <- str_subset(sentences, "\\w+s|(es)")
+plurals_words <- str_extract(has_plurals, "\\w+s|(es)")
+plurals_words
+```
+
+### 14.4.4.1 Exercises
+#### 1. Find all words that come after a “number” like “one”, “two”, “three” etc. Pull out both the number and the word.
+```{r}
+has_num <- str_subset(sentences, "(one|two|three) (\\w+)")
+num_words <- str_extract(has_num, "(one|two|three) (\\w+)")
+num_words
+```
+
+#### 2. Find all contractions. Separate out the pieces before and after the apostrophe.
+```{r}
+has_apos <- str_subset(sentences, "\\w+'\\w+")
+str_match(has_apos, "\\w+'\\w+")
+```
+
+### 14.4.5.1 Exercises
+#### 1. Replace all forward slashes in a string with backslashes.
+```{r}
+x <- "2016/11/11"
+writeLines(str_replace_all(x, "/", "\\\\"))
+```
+
+#### 2. Implement a simple version of str_to_lower() using replace_all().
+```{r}
+x <- "ABCDEFG"
+str_replace_all(x, "[A-Z]", "[a-z]")
+```
+
+#### 3. Switch the first and last letters in words. Which of those strings are still words?
+
+### 14.4.6.1 Exercises
+#### 1. Split up a string like "apples, pears, and bananas" into individual components.
+```{r}
+x <- "apples, pears, and bananas"
+str_split(x, ", ")[[1]]
+```
+
+#### 2. Why is it better to split up by boundary("word") than " "?
+Because there may be serveral spaces between two words.
+
+#### 3. What does splitting with an empty string ("") do? Experiment, and then read the documentation.
+```{r}
+x <- "apples, pears, and bananas"
+str_split(x, "")[[1]]
+```
+
+As shown above, we find that splitting with an empty string splits a string into individual letters.
+
+### 14.5.1 Exercises
+#### 1. How would you find all strings containing \ with regex() vs. with fixed()?
+```{r}
+x <- "2016\\11\\11"
+writeLines(x)
+str_subset(x, regex("\\\\"))
+str_subset(x, fixed("\\"))
+```
+As shown above, we can match \ with either regex("\\\\") or fixed("\\").
+
+#### 2. What are the five most common words in sentences?
+```{r}
+```
+
+## Writing functions
+- **Write one (or more) functions that do something useful to pieces of the Gapminder data. It is logical to think about computing on the mini-data frames corresponding to the data for each specific country. This would pair well with the prompt below about working with a nested data frame, as you could apply your function there.**
+
++ **Make it something you can’t easily do with built-in functions. Make it something that’s not trivial to do with the simple dplyr verbs. The linear regression function presented here is a good starting point. You could generalize that to do quadratic regression (include a squared term) or use robust regression, using MASS::rlm() or robustbase::lmrob().**
+
+```{r}
+(my_gap <- gapminder %>% 
+  filter(country == "Canada"))
+my_gap %>% 
+  ggplot(aes(x = year, y = gdpPercap)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+
+my_fit <- function(dat, offset = 1952) {
+  the_fit <- lm(gdpPercap ~ I(year - offset), dat)
+  setNames(coef(the_fit), c("intercept", "slope"))
+}
+my_fit(my_gap)
+```
+
+## Work with the candy data
+**In 2015, we explored a dataset based on a Halloween candy survey (but it included many other odd and interesting questions). Work on something from this homework from 2015. It is good practice on basic data ingest, exploration, character data cleanup, and wrangling.**
+
