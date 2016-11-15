@@ -3,8 +3,8 @@ Homework 06: Data wrangling conclusion
 Ke Dai
 2016/11/13
 
-Import tidyverse, stringr
--------------------------
+Import tidyverse, stringr, gapminder, ggplot2, and knitr
+--------------------------------------------------------
 
 ``` r
 library(tidyverse)
@@ -26,6 +26,7 @@ library(tidyverse)
 library(stringr)
 library(gapminder)
 library(ggplot2)
+library(knitr)
 ```
 
 Character data
@@ -1404,11 +1405,278 @@ str(clean_data2$age)
 
 Now we have 5351 rows, 307 fewer rows than the raw data.
 
+Now Let's have a look at other variables.
+
+``` r
+names(clean_data2)
+```
+
+    ##   [1] "age"                                                                                                              
+    ##   [2] "Timestamp"                                                                                                        
+    ##   [3] "Are you going actually going trick or treating yourself?"                                                         
+    ##   [4] "[Butterfinger]"                                                                                                   
+    ##   [5] "[100 Grand Bar]"                                                                                                  
+    ##   [6] "[Anonymous brown globs that come in black and orange wrappers]"                                                   
+    ##   [7] "[Any full-sized candy bar]"                                                                                       
+    ##   [8] "[Black Jacks]"                                                                                                    
+    ##   [9] "[Bonkers]"                                                                                                        
+    ##  [10] "[Bottle Caps]"                                                                                                    
+    ##  [11] "[Box’o’ Raisins]"                                                                                               
+    ##  [12] "[Brach products (not including candy corn)]"                                                                      
+    ##  [13] "[Bubble Gum]"                                                                                                     
+    ##  [14] "[Cadbury Creme Eggs]"                                                                                             
+    ##  [15] "[Candy Corn]"                                                                                                     
+    ##  [16] "[Vials of pure high fructose corn syrup, for main-lining into your vein]"                                         
+    ##  [17] "[Candy that is clearly just the stuff given out for free at restaurants]"                                         
+    ##  [18] "[Cash, or other forms of legal tender]"                                                                           
+    ##  [19] "[Chiclets]"                                                                                                       
+    ##  [20] "[Caramellos]"                                                                                                     
+    ##  [21] "[Snickers]"                                                                                                       
+    ##  [22] "[Dark Chocolate Hershey]"                                                                                         
+    ##  [23] "[Dental paraphenalia]"                                                                                            
+    ##  [24] "[Dots]"                                                                                                           
+    ##  [25] "[Fuzzy Peaches]"                                                                                                  
+    ##  [26] "[Generic Brand Acetaminophen]"                                                                                    
+    ##  [27] "[Glow sticks]"                                                                                                    
+    ##  [28] "[Broken glow stick]"                                                                                              
+    ##  [29] "[Goo Goo Clusters]"                                                                                               
+    ##  [30] "[Good N' Plenty]"                                                                                                 
+    ##  [31] "[Gum from baseball cards]"                                                                                        
+    ##  [32] "[Gummy Bears straight up]"                                                                                        
+    ##  [33] "[Creepy Religious comics/Chick Tracts]"                                                                           
+    ##  [34] "[Healthy Fruit]"                                                                                                  
+    ##  [35] "[Heath Bar]"                                                                                                      
+    ##  [36] "[Hershey’s Kissables]"                                                                                           
+    ##  [37] "[Hershey’s Milk Chocolate]"                                                                                      
+    ##  [38] "[Hugs (actual physical hugs)]"                                                                                    
+    ##  [39] "[Jolly Rancher (bad flavor)]"                                                                                     
+    ##  [40] "[Jolly Ranchers (good flavor)]"                                                                                   
+    ##  [41] "[Kale smoothie]"                                                                                                  
+    ##  [42] "[Kinder Happy Hippo]"                                                                                             
+    ##  [43] "[Kit Kat]"                                                                                                        
+    ##  [44] "[Hard Candy]"                                                                                                     
+    ##  [45] "[Lapel Pins]"                                                                                                     
+    ##  [46] "[LemonHeads]"                                                                                                     
+    ##  [47] "[Licorice]"                                                                                                       
+    ##  [48] "[Licorice (not black)]"                                                                                           
+    ##  [49] "[Lindt Truffle]"                                                                                                  
+    ##  [50] "[Lollipops]"                                                                                                      
+    ##  [51] "[Mars]"                                                                                                           
+    ##  [52] "[Mary Janes]"                                                                                                     
+    ##  [53] "[Maynards]"                                                                                                       
+    ##  [54] "[Milk Duds]"                                                                                                      
+    ##  [55] "[LaffyTaffy]"                                                                                                     
+    ##  [56] "[Minibags of chips]"                                                                                              
+    ##  [57] "[JoyJoy (Mit Iodine)]"                                                                                            
+    ##  [58] "[Reggie Jackson Bar]"                                                                                             
+    ##  [59] "[Pixy Stix]"                                                                                                      
+    ##  [60] "[Nerds]"                                                                                                          
+    ##  [61] "[Nestle Crunch]"                                                                                                  
+    ##  [62] "[Now'n'Laters]"                                                                                                   
+    ##  [63] "[Pencils]"                                                                                                        
+    ##  [64] "[Milky Way]"                                                                                                      
+    ##  [65] "[Reese’s Peanut Butter Cups]"                                                                                    
+    ##  [66] "[Tolberone something or other]"                                                                                   
+    ##  [67] "[Runts]"                                                                                                          
+    ##  [68] "[Junior Mints]"                                                                                                   
+    ##  [69] "[Senior Mints]"                                                                                                   
+    ##  [70] "[Mint Kisses]"                                                                                                    
+    ##  [71] "[Mint Juleps]"                                                                                                    
+    ##  [72] "[Mint Leaves]"                                                                                                    
+    ##  [73] "[Peanut M&M’s]"                                                                                                  
+    ##  [74] "[Regular M&Ms]"                                                                                                   
+    ##  [75] "[Mint M&Ms]"                                                                                                      
+    ##  [76] "[Ribbon candy]"                                                                                                   
+    ##  [77] "[Rolos]"                                                                                                          
+    ##  [78] "[Skittles]"                                                                                                       
+    ##  [79] "[Smarties (American)]"                                                                                            
+    ##  [80] "[Smarties (Commonwealth)]"                                                                                        
+    ##  [81] "[Chick-o-Sticks (we don’t know what that is)]"                                                                   
+    ##  [82] "[Spotted Dick]"                                                                                                   
+    ##  [83] "[Starburst]"                                                                                                      
+    ##  [84] "[Swedish Fish]"                                                                                                   
+    ##  [85] "[Sweetums]"                                                                                                       
+    ##  [86] "[Those odd marshmallow circus peanut things]"                                                                     
+    ##  [87] "[Three Musketeers]"                                                                                               
+    ##  [88] "[Peterson Brand Sidewalk Chalk]"                                                                                  
+    ##  [89] "[Peanut Butter Bars]"                                                                                             
+    ##  [90] "[Peanut Butter Jars]"                                                                                             
+    ##  [91] "[Trail Mix]"                                                                                                      
+    ##  [92] "[Twix]"                                                                                                           
+    ##  [93] "[Vicodin]"                                                                                                        
+    ##  [94] "[White Bread]"                                                                                                    
+    ##  [95] "[Whole Wheat anything]"                                                                                           
+    ##  [96] "[York Peppermint Patties]"                                                                                        
+    ##  [97] "Please leave any remarks or comments regarding your choices."                                                     
+    ##  [98] "Please list any items not included above that give you JOY."                                                      
+    ##  [99] "Please list any items not included above that give you DESPAIR."                                                  
+    ## [100] "Guess the number of mints in my hand."                                                                            
+    ## [101] "Betty or Veronica?"                                                                                               
+    ## [102] "Check all that apply: \"I cried tears of sadness at the end of  ____________\""                                   
+    ## [103] "\"That dress* that went viral early this year - when I first saw it, it was ________\""                           
+    ## [104] "Fill in the blank: \"Taylor Swift is a force for ___________\""                                                   
+    ## [105] "What is your favourite font?"                                                                                     
+    ## [106] "If you squint really hard, the words \"Intelligent Design\" would look like."                                     
+    ## [107] "Fill in the blank: \"Imitation is a form of ____________\""                                                       
+    ## [108] "Please estimate the degree(s) of separation you have from the following celebrities [JK Rowling]"                 
+    ## [109] "Please estimate the degree(s) of separation you have from the following celebrities [JJ Abrams]"                  
+    ## [110] "Please estimate the degree(s) of separation you have from the following celebrities [Beyoncé]"                   
+    ## [111] "Please estimate the degree(s) of separation you have from the following celebrities [Bieber]"                     
+    ## [112] "Please estimate the degree(s) of separation you have from the following celebrities [Kevin Bacon]"                
+    ## [113] "Please estimate the degree(s) of separation you have from the following celebrities [Francis Bacon (1561 - 1626)]"
+    ## [114] "[Sea-salt flavored stuff, probably chocolate, since this is the \"it\" flavor of the year]"                       
+    ## [115] "[Necco Wafers]"                                                                                                   
+    ## [116] "Which day do you prefer, Friday or Sunday?"                                                                       
+    ## [117] "Please estimate the degrees of separation you have from the following folks [Bruce Lee]"                          
+    ## [118] "Please estimate the degrees of separation you have from the following folks [JK Rowling]"                         
+    ## [119] "Please estimate the degrees of separation you have from the following folks [Malala Yousafzai]"                   
+    ## [120] "Please estimate the degrees of separation you have from the following folks [Thom Yorke]"                         
+    ## [121] "Please estimate the degrees of separation you have from the following folks [JJ Abrams]"                          
+    ## [122] "Please estimate the degrees of separation you have from the following folks [Hillary Clinton]"                    
+    ## [123] "Please estimate the degrees of separation you have from the following folks [Donald Trump]"                       
+    ## [124] "Please estimate the degrees of separation you have from the following folks [Beyoncé Knowles]"
+
+We can find that the candy variable names always start with "\[", and end with "\]". We can remove these "\[" and "\]".
+
+``` r
+##Extract all candy variables, and store them at a dataframe named candy
+candy <- clean_data2 %>% select(matches("^\\["))   
+
+## Remove "[]" from candy variable names
+candy_name <- str_replace_all(names(candy),"(\\[)|(\\])","") 
+
+names(candy) <- candy_name
+```
+
+Create a new data frame which only includes the age and all candy varaibles.
+
+``` r
+my_data <- clean_data2 %>% 
+  select(age)
+my_data <- cbind(my_data, candy)
+```
+
+Tidy the new data frame
+
+``` r
+my_tidy_data <- my_data %>% 
+  gather(key = candy, value = joy, -age) %>% 
+  mutate(joy = as.factor(joy))
+kable(my_tidy_data[1:20, ])
+```
+
+|  age| candy        | joy     |
+|----:|:-------------|:--------|
+|   35| Butterfinger | JOY     |
+|   41| Butterfinger | JOY     |
+|   33| Butterfinger | DESPAIR |
+|   31| Butterfinger | JOY     |
+|   30| Butterfinger | NA      |
+|   38| Butterfinger | JOY     |
+|   48| Butterfinger | JOY     |
+|   39| Butterfinger | DESPAIR |
+|   54| Butterfinger | JOY     |
+|   40| Butterfinger | JOY     |
+|   38| Butterfinger | JOY     |
+|   33| Butterfinger | JOY     |
+|   36| Butterfinger | JOY     |
+|   47| Butterfinger | JOY     |
+|   60| Butterfinger | DESPAIR |
+|   34| Butterfinger | JOY     |
+|   44| Butterfinger | JOY     |
+|   46| Butterfinger | JOY     |
+|   34| Butterfinger | JOY     |
+|   46| Butterfinger | JOY     |
+
 ### Exploring/Analyzing
 
 **Now that your data us ready to analyze, complete the task you set out to complete! This will also be multipart, so again divide things up logically. Perhaps you will start with some basic exploration + tables to get a sense of the data, and then move onto dplyr and plotting.**
 
 **Examining how joy/despair scores change with age**
+
+``` r
+joy_age <- my_tidy_data %>% 
+  group_by(age) %>% 
+  summarise(joy_score = sum(joy == "JOY", na.rm = TRUE) / n())
+
+des_age <- my_tidy_data %>% 
+  group_by(age) %>% 
+  summarise(des_score = sum(joy == "DESPAIR", na.rm = TRUE)/ n())
+
+kable(joy_age[1:20, ])
+```
+
+|  age|  joy\_score|
+|----:|-----------:|
+|    0|   0.4105263|
+|    5|   0.6210526|
+|    6|   0.4763158|
+|    7|   0.3894737|
+|    8|   0.5263158|
+|    9|   0.4865497|
+|   10|   0.5515789|
+|   11|   0.5131579|
+|   12|   0.4623482|
+|   13|   0.3831579|
+|   14|   0.3607018|
+|   15|   0.4684211|
+|   16|   0.3413534|
+|   17|   0.4502924|
+|   18|   0.4193457|
+|   19|   0.3967419|
+|   20|   0.3399123|
+|   21|   0.4103565|
+|   22|   0.3891930|
+|   23|   0.3976760|
+
+``` r
+kable(des_age[1:20, ])
+```
+
+|  age|  des\_score|
+|----:|-----------:|
+|    0|   0.5578947|
+|    5|   0.3789474|
+|    6|   0.3736842|
+|    7|   0.5631579|
+|    8|   0.2236842|
+|    9|   0.4397661|
+|   10|   0.4042105|
+|   11|   0.4039474|
+|   12|   0.4736842|
+|   13|   0.3831579|
+|   14|   0.4428070|
+|   15|   0.4442105|
+|   16|   0.5258145|
+|   17|   0.4686160|
+|   18|   0.4318634|
+|   19|   0.4744361|
+|   20|   0.4438596|
+|   21|   0.4653650|
+|   22|   0.5174737|
+|   23|   0.5276828|
+
+``` r
+joy_age %>% 
+  ggplot(aes(x = age, y = joy_score)) +
+  geom_point() +
+  geom_line(color = "red") +
+  ggtitle("Joy_score change with age")
+```
+
+![](hw06_data-wrangling-conclusion_files/figure-markdown_github/unnamed-chunk-40-1.png)
+
+``` r
+des_age %>% 
+  ggplot(aes(x = age, y = des_score)) +
+  geom_point() +
+  geom_line(color = "red") +
+  ggtitle("Des_score change with age")
+```
+
+![](hw06_data-wrangling-conclusion_files/figure-markdown_github/unnamed-chunk-40-2.png)
+
+From the graphs above, wen can see there is a tendency that the happiness of people decreases with the increase of the age although it fluctuates significantly over the ages.
 
 Report your process
 -------------------

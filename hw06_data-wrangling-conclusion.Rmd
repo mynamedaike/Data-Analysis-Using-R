@@ -9,12 +9,13 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Import tidyverse, stringr
+## Import tidyverse, stringr, gapminder, ggplot2, and knitr
 ```{r}
 library(tidyverse)
 library(stringr)
 library(gapminder)
 library(ggplot2)
+library(knitr)
 ```
 
 ## Character data
@@ -443,15 +444,63 @@ Now Let's have a look at other variables.
 ```{r}
 names(clean_data2)
 ```
+
 We can find that the candy variable names always start with "[", and end with "]". We can remove these "[" and "]". 
+```{r}
+##Extract all candy variables, and store them at a dataframe named candy
+candy <- clean_data2 %>% select(matches("^\\["))   
+
+## Remove "[]" from candy variable names
+candy_name <- str_replace_all(names(candy),"(\\[)|(\\])","") 
+
+names(candy) <- candy_name
+```
+
+Create a new data frame which only includes the age and all candy varaibles.
+```{r}
+my_data <- clean_data2 %>% 
+  select(age)
+my_data <- cbind(my_data, candy)
+```
+
+Tidy the new data frame
+```{r}
+my_tidy_data <- my_data %>% 
+  gather(key = candy, value = joy, -age) %>% 
+  mutate(joy = as.factor(joy))
+kable(my_tidy_data[1:20, ])
+```
 
 ### Exploring/Analyzing
 **Now that your data us ready to analyze, complete the task you set out to complete! This will also be multipart, so again divide things up logically. Perhaps you will start with some basic exploration + tables to get a sense of the data, and then move onto dplyr and plotting.**
 
 **Examining how joy/despair scores change with age**
 ```{r}
-?one_of()
+joy_age <- my_tidy_data %>% 
+  group_by(age) %>% 
+  summarise(joy_score = sum(joy == "JOY", na.rm = TRUE) / n())
+
+des_age <- my_tidy_data %>% 
+  group_by(age) %>% 
+  summarise(des_score = sum(joy == "DESPAIR", na.rm = TRUE)/ n())
+
+kable(joy_age[1:20, ])
+kable(des_age[1:20, ])
+
+joy_age %>% 
+  ggplot(aes(x = age, y = joy_score)) +
+  geom_point() +
+  geom_line(color = "red") +
+  ggtitle("Joy_score change with age")
+
+des_age %>% 
+  ggplot(aes(x = age, y = des_score)) +
+  geom_point() +
+  geom_line(color = "red") +
+  ggtitle("Des_score change with age")
 ```
+
+From the graphs above, wen can see there is a tendency that the happiness of people decreases with the increase of the age although it fluctuates significantly over the ages.
 
 ## Report your process
 **You’re encouraged to reflect on what was hard/easy, problems you solved, helpful tutorials you read, etc. Give credit to your sources, whether it’s a blog post, a fellow student, an online tutorial, etc.**
