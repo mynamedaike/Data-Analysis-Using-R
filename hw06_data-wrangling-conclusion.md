@@ -169,11 +169,11 @@ a <- c("a", "b", "c")
 
 ### 14.3.1.1 Exercises
 
-#### 1. Explain why each of these strings don’t match a : "", "\\", "\\".
+#### 1. Explain why each of these strings don’t match a \\: "\\", "\\\\", "\\\\\\".
 
-"" is used as an escape character in regular expressions. To match a literal "", you need to escape it, creating the regular expression "\\". To create that regular expression, you need to use a string, which also needs to escape "". That means to match a literal "" you need to write "\\\\" — you need four backslashes to match one!
+\\ is used as an escape character in regular expressions. To match a literal \\, you need to escape it, creating the regular expression \\\\. To create that regular expression, you need to use a string, which also needs to escape \\. That means to match a literal \\ you need to write "\\\\\\\\" — you need four backslashes to match one!
 
-#### 2. How would you match the sequence "'?
+#### 2. How would you match the sequence "'\\?
 
 ``` r
 x <- "ab\"'\\c"
@@ -188,9 +188,9 @@ str_detect(x, "\"'\\\\")
 
     ## [1] TRUE
 
-As shown above, we can use ""'\\\\" to match "'.
+As shown above, we can use "\\"'\\\\\\\\" to match "'\\.
 
-#### 3. What patterns will the regular expression ...... match? How would you represent it as a string?
+#### 3. What patterns will the regular expression \\..\\..\\.. match? How would you represent it as a string?
 
 ``` r
 x <- "wer.a.3.$wer"
@@ -205,7 +205,7 @@ str_detect(x, "\\..\\..\\..")
 
     ## [1] TRUE
 
-As shown above, the regular expression ...... match a pattern like .x.x.x(x represents any character except a newline). We can represent this regular expression with "\\..\\..\\..".
+As shown above, the regular expression \\..\\..\\.. match a pattern like .x.x.x(x represents any character except a newline). We can represent this regular expression with "\\\\..\\\\..\\\\..".
 
 ### 14.3.2.1 Exercises
 
@@ -217,8 +217,6 @@ str_detect(x, "^\\$\\^\\$$")
 ```
 
     ## [1] TRUE
-
-As shown above, we can use "<sup>\\\(\\^\\\)\(" to match the literal string "\)</sup>$".
 
 #### 2. Given the corpus of common words in stringr::words, create regular expressions that find all words that:
 
@@ -1045,3 +1043,376 @@ Work with the candy data
 ------------------------
 
 **In 2015, we explored a dataset based on a Halloween candy survey (but it included many other odd and interesting questions). Work on something from this homework from 2015. It is good practice on basic data ingest, exploration, character data cleanup, and wrangling.**
+
+### Examining the raw data and choosing a task
+
+**Familiarize yourself with the raw data if you haven’t already. Based on the information available, formulate a task you want to complete and explain what it is. Make it fairly specific, like the tasks above.**
+
+Let's load the candy data first.
+
+``` r
+raw <- read_csv("CANDY-HIERARCHY-2015 SURVEY-Responses.csv",
+                col_types = cols(
+                  Timestamp = col_datetime("%m/%d/%Y %H:%M:%S")
+                ))
+```
+
+``` r
+str(raw)
+```
+
+    ## Classes 'tbl_df', 'tbl' and 'data.frame':    5658 obs. of  124 variables:
+    ##  $ Timestamp                                                                                                        : POSIXct, format: "2015-10-23 08:46:20" "2015-10-23 08:46:52" ...
+    ##  $ How old are you?                                                                                                 : chr  "35" "41" "33" "31" ...
+    ##  $ Are you going actually going trick or treating yourself?                                                         : chr  "No" "No" "No" "No" ...
+    ##  $ [Butterfinger]                                                                                                   : chr  "JOY" "JOY" "DESPAIR" "JOY" ...
+    ##  $ [100 Grand Bar]                                                                                                  : chr  NA "JOY" "DESPAIR" "JOY" ...
+    ##  $ [Anonymous brown globs that come in black and orange wrappers]                                                   : chr  "DESPAIR" "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Any full-sized candy bar]                                                                                       : chr  "JOY" "JOY" "JOY" "JOY" ...
+    ##  $ [Black Jacks]                                                                                                    : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Bonkers]                                                                                                        : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Bottle Caps]                                                                                                    : chr  NA "JOY" "DESPAIR" "JOY" ...
+    ##  $ [Box’o’ Raisins]                                                                                               : chr  NA "DESPAIR" "JOY" "DESPAIR" ...
+    ##  $ [Brach products (not including candy corn)]                                                                      : chr  "DESPAIR" "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Bubble Gum]                                                                                                     : chr  "DESPAIR" "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Cadbury Creme Eggs]                                                                                             : chr  "DESPAIR" "DESPAIR" "JOY" "DESPAIR" ...
+    ##  $ [Candy Corn]                                                                                                     : chr  NA "DESPAIR" "JOY" "DESPAIR" ...
+    ##  $ [Vials of pure high fructose corn syrup, for main-lining into your vein]                                         : chr  "DESPAIR" "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Candy that is clearly just the stuff given out for free at restaurants]                                         : chr  "DESPAIR" "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Cash, or other forms of legal tender]                                                                           : chr  "JOY" "JOY" "JOY" "JOY" ...
+    ##  $ [Chiclets]                                                                                                       : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Caramellos]                                                                                                     : chr  NA "DESPAIR" "JOY" "JOY" ...
+    ##  $ [Snickers]                                                                                                       : chr  "JOY" "JOY" "JOY" "JOY" ...
+    ##  $ [Dark Chocolate Hershey]                                                                                         : chr  "JOY" "DESPAIR" "JOY" "JOY" ...
+    ##  $ [Dental paraphenalia]                                                                                            : chr  "DESPAIR" "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Dots]                                                                                                           : chr  "JOY" "JOY" "DESPAIR" "DESPAIR" ...
+    ##  $ [Fuzzy Peaches]                                                                                                  : chr  "DESPAIR" "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Generic Brand Acetaminophen]                                                                                    : chr  "DESPAIR" "JOY" "DESPAIR" "DESPAIR" ...
+    ##  $ [Glow sticks]                                                                                                    : chr  "DESPAIR" "JOY" "DESPAIR" "JOY" ...
+    ##  $ [Broken glow stick]                                                                                              : chr  "DESPAIR" "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Goo Goo Clusters]                                                                                               : chr  NA "DESPAIR" "DESPAIR" "JOY" ...
+    ##  $ [Good N' Plenty]                                                                                                 : chr  "DESPAIR" "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Gum from baseball cards]                                                                                        : chr  "DESPAIR" "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Gummy Bears straight up]                                                                                        : chr  "DESPAIR" "DESPAIR" "JOY" "DESPAIR" ...
+    ##  $ [Creepy Religious comics/Chick Tracts]                                                                           : chr  "DESPAIR" "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Healthy Fruit]                                                                                                  : chr  "DESPAIR" "DESPAIR" "JOY" "DESPAIR" ...
+    ##  $ [Heath Bar]                                                                                                      : chr  NA "JOY" "DESPAIR" "JOY" ...
+    ##  $ [Hershey’s Kissables]                                                                                           : chr  NA "JOY" "JOY" "JOY" ...
+    ##  $ [Hershey’s Milk Chocolate]                                                                                      : chr  "JOY" "JOY" "JOY" "JOY" ...
+    ##  $ [Hugs (actual physical hugs)]                                                                                    : chr  "DESPAIR" "DESPAIR" "JOY" "DESPAIR" ...
+    ##  $ [Jolly Rancher (bad flavor)]                                                                                     : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Jolly Ranchers (good flavor)]                                                                                   : chr  NA "JOY" "DESPAIR" "JOY" ...
+    ##  $ [Kale smoothie]                                                                                                  : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Kinder Happy Hippo]                                                                                             : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Kit Kat]                                                                                                        : chr  NA "JOY" "JOY" "JOY" ...
+    ##  $ [Hard Candy]                                                                                                     : chr  NA "DESPAIR" "JOY" "DESPAIR" ...
+    ##  $ [Lapel Pins]                                                                                                     : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [LemonHeads]                                                                                                     : chr  NA "DESPAIR" "DESPAIR" "JOY" ...
+    ##  $ [Licorice]                                                                                                       : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Licorice (not black)]                                                                                           : chr  NA "DESPAIR" "JOY" "JOY" ...
+    ##  $ [Lindt Truffle]                                                                                                  : chr  NA "JOY" "DESPAIR" "JOY" ...
+    ##  $ [Lollipops]                                                                                                      : chr  NA "DESPAIR" "JOY" "DESPAIR" ...
+    ##  $ [Mars]                                                                                                           : chr  NA "JOY" "JOY" "JOY" ...
+    ##  $ [Mary Janes]                                                                                                     : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Maynards]                                                                                                       : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Milk Duds]                                                                                                      : chr  NA "JOY" "DESPAIR" "JOY" ...
+    ##  $ [LaffyTaffy]                                                                                                     : chr  NA "DESPAIR" "JOY" "JOY" ...
+    ##  $ [Minibags of chips]                                                                                              : chr  NA "JOY" "DESPAIR" "DESPAIR" ...
+    ##  $ [JoyJoy (Mit Iodine)]                                                                                            : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Reggie Jackson Bar]                                                                                             : chr  NA "DESPAIR" "DESPAIR" "JOY" ...
+    ##  $ [Pixy Stix]                                                                                                      : chr  NA "DESPAIR" "JOY" "DESPAIR" ...
+    ##  $ [Nerds]                                                                                                          : chr  NA "JOY" "DESPAIR" "JOY" ...
+    ##  $ [Nestle Crunch]                                                                                                  : chr  NA "JOY" "JOY" "JOY" ...
+    ##  $ [Now'n'Laters]                                                                                                   : chr  NA "DESPAIR" "JOY" "JOY" ...
+    ##  $ [Pencils]                                                                                                        : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Milky Way]                                                                                                      : chr  "JOY" "DESPAIR" "JOY" "JOY" ...
+    ##  $ [Reese’s Peanut Butter Cups]                                                                                    : chr  "JOY" "JOY" "JOY" "JOY" ...
+    ##  $ [Tolberone something or other]                                                                                   : chr  NA "JOY" "JOY" "JOY" ...
+    ##  $ [Runts]                                                                                                          : chr  NA "JOY" "DESPAIR" "JOY" ...
+    ##  $ [Junior Mints]                                                                                                   : chr  "JOY" "DESPAIR" "JOY" "JOY" ...
+    ##  $ [Senior Mints]                                                                                                   : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Mint Kisses]                                                                                                    : chr  NA "DESPAIR" "JOY" "JOY" ...
+    ##  $ [Mint Juleps]                                                                                                    : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Mint Leaves]                                                                                                    : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Peanut M&M’s]                                                                                                  : chr  "JOY" "JOY" "JOY" "JOY" ...
+    ##  $ [Regular M&Ms]                                                                                                   : chr  "JOY" "JOY" "JOY" "DESPAIR" ...
+    ##  $ [Mint M&Ms]                                                                                                      : chr  NA "DESPAIR" "JOY" "JOY" ...
+    ##  $ [Ribbon candy]                                                                                                   : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Rolos]                                                                                                          : chr  "JOY" "JOY" "DESPAIR" "JOY" ...
+    ##  $ [Skittles]                                                                                                       : chr  NA "JOY" "JOY" "JOY" ...
+    ##  $ [Smarties (American)]                                                                                            : chr  "JOY" "DESPAIR" "JOY" "DESPAIR" ...
+    ##  $ [Smarties (Commonwealth)]                                                                                        : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Chick-o-Sticks (we don’t know what that is)]                                                                   : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Spotted Dick]                                                                                                   : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Starburst]                                                                                                      : chr  NA "JOY" "JOY" "JOY" ...
+    ##  $ [Swedish Fish]                                                                                                   : chr  NA "JOY" "JOY" "JOY" ...
+    ##  $ [Sweetums]                                                                                                       : chr  NA "DESPAIR" "DESPAIR" "JOY" ...
+    ##  $ [Those odd marshmallow circus peanut things]                                                                     : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Three Musketeers]                                                                                               : chr  NA "DESPAIR" "JOY" "JOY" ...
+    ##  $ [Peterson Brand Sidewalk Chalk]                                                                                  : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Peanut Butter Bars]                                                                                             : chr  NA "JOY" "DESPAIR" "JOY" ...
+    ##  $ [Peanut Butter Jars]                                                                                             : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Trail Mix]                                                                                                      : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Twix]                                                                                                           : chr  NA "JOY" "DESPAIR" "JOY" ...
+    ##  $ [Vicodin]                                                                                                        : chr  NA "JOY" "DESPAIR" "JOY" ...
+    ##  $ [White Bread]                                                                                                    : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [Whole Wheat anything]                                                                                           : chr  NA "DESPAIR" "DESPAIR" "DESPAIR" ...
+    ##  $ [York Peppermint Patties]                                                                                        : chr  NA "DESPAIR" "JOY" "DESPAIR" ...
+    ##  $ Please leave any remarks or comments regarding your choices.                                                     : chr  NA NA NA NA ...
+    ##  $ Please list any items not included above that give you JOY.                                                      : chr  NA NA "Butterscotch, Mike & Ike" NA ...
+    ##  $ Please list any items not included above that give you DESPAIR.                                                  : chr  NA NA "Salmiakki" NA ...
+    ##   [list output truncated]
+    ##  - attr(*, "spec")=List of 2
+    ##   ..$ cols   :List of 124
+    ##   .. ..$ Timestamp                                                                                                        :List of 1
+    ##   .. .. ..$ format: chr "%m/%d/%Y %H:%M:%S"
+    ##   .. .. ..- attr(*, "class")= chr  "collector_datetime" "collector"
+    ##   .. ..$ How old are you?                                                                                                 : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ Are you going actually going trick or treating yourself?                                                         : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Butterfinger]                                                                                                   : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [100 Grand Bar]                                                                                                  : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Anonymous brown globs that come in black and orange wrappers]                                                   : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Any full-sized candy bar]                                                                                       : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Black Jacks]                                                                                                    : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Bonkers]                                                                                                        : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Bottle Caps]                                                                                                    : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Box’o’ Raisins]                                                                                               : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Brach products (not including candy corn)]                                                                      : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Bubble Gum]                                                                                                     : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Cadbury Creme Eggs]                                                                                             : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Candy Corn]                                                                                                     : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Vials of pure high fructose corn syrup, for main-lining into your vein]                                         : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Candy that is clearly just the stuff given out for free at restaurants]                                         : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Cash, or other forms of legal tender]                                                                           : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Chiclets]                                                                                                       : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Caramellos]                                                                                                     : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Snickers]                                                                                                       : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Dark Chocolate Hershey]                                                                                         : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Dental paraphenalia]                                                                                            : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Dots]                                                                                                           : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Fuzzy Peaches]                                                                                                  : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Generic Brand Acetaminophen]                                                                                    : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Glow sticks]                                                                                                    : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Broken glow stick]                                                                                              : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Goo Goo Clusters]                                                                                               : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Good N' Plenty]                                                                                                 : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Gum from baseball cards]                                                                                        : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Gummy Bears straight up]                                                                                        : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Creepy Religious comics/Chick Tracts]                                                                           : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Healthy Fruit]                                                                                                  : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Heath Bar]                                                                                                      : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Hershey’s Kissables]                                                                                           : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Hershey’s Milk Chocolate]                                                                                      : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Hugs (actual physical hugs)]                                                                                    : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Jolly Rancher (bad flavor)]                                                                                     : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Jolly Ranchers (good flavor)]                                                                                   : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Kale smoothie]                                                                                                  : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Kinder Happy Hippo]                                                                                             : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Kit Kat]                                                                                                        : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Hard Candy]                                                                                                     : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Lapel Pins]                                                                                                     : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [LemonHeads]                                                                                                     : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Licorice]                                                                                                       : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Licorice (not black)]                                                                                           : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Lindt Truffle]                                                                                                  : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Lollipops]                                                                                                      : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Mars]                                                                                                           : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Mary Janes]                                                                                                     : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Maynards]                                                                                                       : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Milk Duds]                                                                                                      : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [LaffyTaffy]                                                                                                     : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Minibags of chips]                                                                                              : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [JoyJoy (Mit Iodine)]                                                                                            : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Reggie Jackson Bar]                                                                                             : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Pixy Stix]                                                                                                      : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Nerds]                                                                                                          : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Nestle Crunch]                                                                                                  : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Now'n'Laters]                                                                                                   : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Pencils]                                                                                                        : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Milky Way]                                                                                                      : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Reese’s Peanut Butter Cups]                                                                                    : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Tolberone something or other]                                                                                   : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Runts]                                                                                                          : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Junior Mints]                                                                                                   : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Senior Mints]                                                                                                   : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Mint Kisses]                                                                                                    : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Mint Juleps]                                                                                                    : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Mint Leaves]                                                                                                    : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Peanut M&M’s]                                                                                                  : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Regular M&Ms]                                                                                                   : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Mint M&Ms]                                                                                                      : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Ribbon candy]                                                                                                   : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Rolos]                                                                                                          : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Skittles]                                                                                                       : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Smarties (American)]                                                                                            : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Smarties (Commonwealth)]                                                                                        : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Chick-o-Sticks (we don’t know what that is)]                                                                   : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Spotted Dick]                                                                                                   : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Starburst]                                                                                                      : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Swedish Fish]                                                                                                   : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Sweetums]                                                                                                       : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Those odd marshmallow circus peanut things]                                                                     : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Three Musketeers]                                                                                               : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Peterson Brand Sidewalk Chalk]                                                                                  : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Peanut Butter Bars]                                                                                             : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Peanut Butter Jars]                                                                                             : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Trail Mix]                                                                                                      : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Twix]                                                                                                           : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Vicodin]                                                                                                        : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [White Bread]                                                                                                    : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [Whole Wheat anything]                                                                                           : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ [York Peppermint Patties]                                                                                        : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ Please leave any remarks or comments regarding your choices.                                                     : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ Please list any items not included above that give you JOY.                                                      : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. ..$ Please list any items not included above that give you DESPAIR.                                                  : list()
+    ##   .. .. ..- attr(*, "class")= chr  "collector_character" "collector"
+    ##   .. .. [list output truncated]
+    ##   ..$ default: list()
+    ##   .. ..- attr(*, "class")= chr  "collector_guess" "collector"
+    ##   ..- attr(*, "class")= chr "col_spec"
+
+We can see that the candy data is a tibble or data.frame. There are 5658 observations and 124 variables.
+
+### Wrangling
+
+**Based on the task you chose, get the data in a workable format. This will likely involve all kinds of fun dropping columns, using regex to clean text and headers, some tidyr for gathering, etc. Divide each step by a unique heading in your document. By the end, you will likely want things in tidy data format so you can easily use dplyr/ggplot for your analysis/exploration.**
+
+I notice that there is a variable called "How old are you?". The name of this variable is too long. I wanna change it to age. And the class of this variable is character. I think integer is more suitable for this variable. So Let's do it.
+
+``` r
+clean_data1 <- raw %>% 
+  select(age = starts_with("How old"), everything())
+
+str(clean_data1$age)
+```
+
+    ##  chr [1:5658] "35" "41" "33" "31" "30" "38" "48" "39" ...
+
+We can find that there are error values for the age variable, such as "9E+22". In general, the age should be a integer of two digits. So I wanna filter out the rows with the error values or missing values of age. Let's do it.
+
+``` r
+clean_data2 <- clean_data1 %>% 
+  filter(str_length(age) <= 2) %>% 
+  mutate(age = as.integer(age)) %>% 
+  filter(!is.na(age))
+```
+
+    ## Warning in eval(substitute(expr), envir, enclos): 强制改变过程中产生了NA
+
+``` r
+str(clean_data2$age)
+```
+
+    ##  int [1:5351] 35 41 33 31 30 38 48 39 54 40 ...
+
+Now we have 5351 rows, 307 fewer rows than the raw data.
+
+### Exploring/Analyzing
+
+**Now that your data us ready to analyze, complete the task you set out to complete! This will also be multipart, so again divide things up logically. Perhaps you will start with some basic exploration + tables to get a sense of the data, and then move onto dplyr and plotting.**
+
+**Examining how joy/despair scores change with age**
+
+Report your process
+-------------------
+
+**You’re encouraged to reflect on what was hard/easy, problems you solved, helpful tutorials you read, etc. Give credit to your sources, whether it’s a blog post, a fellow student, an online tutorial, etc.**
+
+From my perspective, the regular expression is quite hard. When I tried to think of the regular expression matching a given pattern, I often got stuck. Much content about regular expression in the book ***R for Data Science*** is not illustrated clearly. So I have to search the knowledge related to regular expression on the internet. There are still some tricky problems now although I have spent too much time on it.

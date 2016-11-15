@@ -90,25 +90,25 @@ a <- c("a", "b", "c")
 ```
 
 ### 14.3.1.1 Exercises
-#### 1. Explain why each of these strings don’t match a \: "\", "\\", "\\\".
+#### 1. Explain why each of these strings don’t match a \\: "\\", "\\\\", "\\\\\\".
 
-"\" is used as an escape character in regular expressions. To match a literal "\", you need to escape it, creating the regular expression "\\". To create that regular expression, you need to use a string, which also needs to escape "\". That means to match a literal "\" you need to write "\\\\" — you need four backslashes to match one!
+\\ is used as an escape character in regular expressions. To match a literal \\, you need to escape it, creating the regular expression \\\\. To create that regular expression, you need to use a string, which also needs to escape \\. That means to match a literal \\ you need to write "\\\\\\\\" — you need four backslashes to match one!
 
-#### 2. How would you match the sequence "'\?
+#### 2. How would you match the sequence "'\\?
 ```{r}
 x <- "ab\"'\\c"
 writeLines(x)
 str_detect(x, "\"'\\\\")
 ```
-As shown above, we can use "\"'\\\\" to match "'\.
+As shown above, we can use "\\"'\\\\\\\\" to match "'\\.
 
-#### 3. What patterns will the regular expression \..\..\.. match? How would you represent it as a string?
+#### 3. What patterns will the regular expression \\..\\..\\.. match? How would you represent it as a string?
 ```{r}
 x <- "wer.a.3.$wer"
 writeLines(x)
 str_detect(x, "\\..\\..\\..")
 ```
-As shown above, the regular expression \..\..\.. match a pattern like .x.x.x(x represents any character except a newline). We can represent this regular expression with "\\..\\..\\..".
+As shown above, the regular expression \\..\\..\\.. match a pattern like .x.x.x(x represents any character except a newline). We can represent this regular expression with "\\\\..\\\\..\\\\..".
 
 ### 14.3.2.1 Exercises
 #### 1. How would you match the literal string "$^$"?
@@ -116,7 +116,6 @@ As shown above, the regular expression \..\..\.. match a pattern like .x.x.x(x r
 x <- "$^$"
 str_detect(x, "^\\$\\^\\$$")
 ```
-As shown above, we can use "^\\$\\^\\$$" to match the literal string "$^$".
 
 #### 2. Given the corpus of common words in stringr::words, create regular expressions that find all words that:
 1. Start with “y”.
@@ -402,3 +401,59 @@ my_fit(my_gap)
 ## Work with the candy data
 **In 2015, we explored a dataset based on a Halloween candy survey (but it included many other odd and interesting questions). Work on something from this homework from 2015. It is good practice on basic data ingest, exploration, character data cleanup, and wrangling.**
 
+### Examining the raw data and choosing a task
+**Familiarize yourself with the raw data if you haven’t already. Based on the information available, formulate a task you want to complete and explain what it is. Make it fairly specific, like the tasks above.**
+
+Let's load the candy data first.
+```{r}
+raw <- read_csv("CANDY-HIERARCHY-2015 SURVEY-Responses.csv",
+                col_types = cols(
+                  Timestamp = col_datetime("%m/%d/%Y %H:%M:%S")
+                ))
+```
+
+```{r}
+str(raw)
+```
+We can see that the candy data is a tibble or data.frame. There are 5658 observations and 124 variables.
+
+### Wrangling
+**Based on the task you chose, get the data in a workable format. This will likely involve all kinds of fun dropping columns, using regex to clean text and headers, some tidyr for gathering, etc. Divide each step by a unique heading in your document. By the end, you will likely want things in tidy data format so you can easily use dplyr/ggplot for your analysis/exploration.**
+
+I notice that there is a variable called "How old are you?". The name of this variable is too long. I wanna change it to age. And the class of this variable is character. I think integer is more suitable for this variable. So Let's do it.
+
+```{r}
+clean_data1 <- raw %>% 
+  select(age = starts_with("How old"), everything())
+
+str(clean_data1$age)
+```
+We can find that there are error values for the age variable, such as "9E+22". In general, the age should be a integer of two digits. So I wanna filter out the rows with the error values or missing values of age. Let's do it.
+
+```{r}
+clean_data2 <- clean_data1 %>% 
+  filter(str_length(age) <= 2) %>% 
+  mutate(age = as.integer(age)) %>% 
+  filter(!is.na(age))
+str(clean_data2$age)
+```
+Now we have 5351 rows, 307 fewer rows than the raw data.
+
+Now Let's have a look at other variables.
+```{r}
+names(clean_data2)
+```
+We can find that the candy variable names always start with "[", and end with "]". We can remove these "[" and "]". 
+
+### Exploring/Analyzing
+**Now that your data us ready to analyze, complete the task you set out to complete! This will also be multipart, so again divide things up logically. Perhaps you will start with some basic exploration + tables to get a sense of the data, and then move onto dplyr and plotting.**
+
+**Examining how joy/despair scores change with age**
+```{r}
+?one_of()
+```
+
+## Report your process
+**You’re encouraged to reflect on what was hard/easy, problems you solved, helpful tutorials you read, etc. Give credit to your sources, whether it’s a blog post, a fellow student, an online tutorial, etc.**
+
+From my perspective, the regular expression is quite hard. When I tried to think of the regular expression matching a given pattern, I often got stuck. Much content about regular expression in the book ***R for Data Science*** is not illustrated clearly. So I have to search the knowledge related to regular expression on the internet. There are still some tricky problems now although I have spent too much time on it. 
