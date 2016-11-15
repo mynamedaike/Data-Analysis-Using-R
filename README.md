@@ -35,4 +35,4 @@ Initially, when I tried to create a project by version control, it does not work
 - [Homework 03](hw03_use-dplyr-to-manipulate-and-explore-data.md)
 - [Homework 04](hw04_tidy-data-and-joins.md)
 - [Homework 05](hw05_factor-and-figure-management.md)
-- [Homework 05](hw06_data-wrangling-conclusion.md)
+- [Homework 06](hw06_data-wrangling-conclusion.md)
