@@ -390,13 +390,23 @@ As shown above, we can match \ with either regex("\\\\") or fixed("\\").
 my_gap %>% 
   ggplot(aes(x = year, y = gdpPercap)) +
   geom_point() +
-  geom_smooth(method = "lm", se = FALSE)
+  geom_smooth(method = "lm", aes(color = "linear"), se = FALSE) +
+  geom_smooth(method = "lm", formula = y ~ x + I(x^2), aes(color = "quadratic"), se = FALSE) + 
+  ggtitle("Linear regression fit and quadratic regression fit")
 
-my_fit <- function(dat, offset = 1952) {
+## linear regression function
+linear_fit <- function(dat, offset = 1952) {
   the_fit <- lm(gdpPercap ~ I(year - offset), dat)
   setNames(coef(the_fit), c("intercept", "slope"))
 }
-my_fit(my_gap)
+linear_fit(my_gap)
+
+## quadratic regression function
+quadratic_fit <- function(dat, offset = 1952) {
+  the_fit <- lm(gdpPercap ~ I(year - offset) + I((year - offset)^2), dat)
+  setNames(coef(the_fit), c("intercept", "slope1", "slope2"))
+}
+quadratic_fit(my_gap)
 ```
 
 ## Work with the candy data

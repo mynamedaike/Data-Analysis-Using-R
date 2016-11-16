@@ -1024,21 +1024,36 @@ Writing functions
 my_gap %>% 
   ggplot(aes(x = year, y = gdpPercap)) +
   geom_point() +
-  geom_smooth(method = "lm", se = FALSE)
+  geom_smooth(method = "lm", aes(color = "linear"), se = FALSE) +
+  geom_smooth(method = "lm", formula = y ~ x + I(x^2), aes(color = "quadratic"), se = FALSE) + 
+  ggtitle("Linear regression fit and quadratic regression fit")
 ```
 
 ![](hw06_data-wrangling-conclusion_files/figure-markdown_github/unnamed-chunk-31-1.png)
 
 ``` r
-my_fit <- function(dat, offset = 1952) {
+## linear regression function
+linear_fit <- function(dat, offset = 1952) {
   the_fit <- lm(gdpPercap ~ I(year - offset), dat)
   setNames(coef(the_fit), c("intercept", "slope"))
 }
-my_fit(my_gap)
+linear_fit(my_gap)
 ```
 
     ## intercept     slope 
     ## 9995.7799  451.4533
+
+``` r
+## quadratic regression function
+quadratic_fit <- function(dat, offset = 1952) {
+  the_fit <- lm(gdpPercap ~ I(year - offset) + I((year - offset)^2), dat)
+  setNames(coef(the_fit), c("intercept", "slope1", "slope2"))
+}
+quadratic_fit(my_gap)
+```
+
+    ##    intercept       slope1       slope2 
+    ## 10877.450839   345.652815     1.923646
 
 Work with the candy data
 ------------------------
