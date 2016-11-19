@@ -59,3 +59,9 @@ make -Bnd | make2graph | dot -Tpng -o graphical-view-of-my-pipeline.png
 - [Asia](Asia.png)
 - [Europe](Europe.png)
 - [Oceania](Oceania.png)
+
+**Report**
+
+- [report.Rmd](report.Rmd)
+- [report.md](report.md)
+- [report.html](report.html)
