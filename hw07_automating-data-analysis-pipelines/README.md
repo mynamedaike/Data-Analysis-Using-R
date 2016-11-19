@@ -1,9 +1,22 @@
 ## Prerequisites
 You should have installed the [make](http://www.gnu.org/software/make/manual/make.html) and [makefile2graph](https://github.com/lindenb/makefile2graph).
 
-## Steps
-To Run the data anlaysis pipeline, you should take the following steps:
+## Automate the pipeline using R scripts 
+Step 0: clone or download this folder to your local machine, open the shell or the command line window, and then enter the root directory of this folder
 
+Step 1: clear all the tsv, csv, png, html files and report.md using the following command:
+
+```
+Rscript cleaning.R
+```
+
+Step 2: automate the pipline using the following command:
+
+```
+Rscript master.R
+```
+
+## Automate the pipeline using make
 Step 0: clone or download this folder to your local machine, open the shell or the command line window, and then enter the root directory of this folder
 
 Step 1: clear all the tsv, csv, png, html files and report.md using the following command:
@@ -18,13 +31,13 @@ Step 2: automate the pipline using the following command:
 make
 ```
 
-Step 3: generate the graphical view of the pipeline using the following command:
+## The graphical view of my pipeline
+
+Generate the graphical view of the pipeline using the following command:
 
 ```
 make -Bnd | make2graph | dot -Tpng -o graphical-view-of-my-pipeline.png
 ```
-
-## The graphical view of my pipeline
 
 ![](graphical-view-of-my-pipeline.png)
 
