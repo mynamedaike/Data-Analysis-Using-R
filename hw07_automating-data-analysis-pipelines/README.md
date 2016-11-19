@@ -31,15 +31,19 @@ make -Bnd | make2graph | dot -Tpng -o graphical-view-of-my-pipeline.png
 ## Links
 **Five R scripts**
 
-1. [00_download-the-data.R](00_download-the-data.R)
-2. [01_perform-exploratory-analyses.R](01_perform-exploratory-analyses.R)
-3. [02_perform-statistical-analyses.R](02_perform-statistical-analyses.R)
-4. [03_generate-figures.R](03_generate-figures.R)
-5. [04_report.R](04_report.R)
+- [00_download-the-data.R](00_download-the-data.R)
+- [01_perform-exploratory-analyses.R](01_perform-exploratory-analyses.R)
+- [02_perform-statistical-analyses.R](02_perform-statistical-analyses.R)
+- [03_generate-figures.R](03_generate-figures.R)
+- [04_report.R](04_report.R)
 
-[The raw gapminder data](gapminder.tsv)
+**Data**
 
-[**The reordered gapminder data**](gap_reordered.csv)
+- [The raw gapminder data](gapminder.tsv)
+- [The reordered gapminder data](gap_reordered.csv)
+- [The linear regression results](fit_result.csv)
+- [The best fitted countries](best_countries.csv)
+- [The worst fitted countries](worst_countries.csv)
 
 **Figures of exploratory analyses**
 
@@ -47,12 +51,6 @@ make -Bnd | make2graph | dot -Tpng -o graphical-view-of-my-pipeline.png
 - [The weighted mean of GDP per capita on population for each continent on years](gdpPercap_continent.png)
 - [The distribution of the population for each continent on years](pop_continent.png)
 - [The life expectancy with GDP per capita for each continent](lifeExp_gdpPercap.png)
-
-[**The linear regression results**](fit_result.csv)
-
-[**The best fitted countries**](best_countries.csv)
-
-[**The worst fitted countries**](worst_countries.csv)
 
 **Figures of the 4 best fitted countries for each continent**
 
