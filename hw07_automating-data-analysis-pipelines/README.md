@@ -24,6 +24,10 @@ Step 3: generate the graphical view of the pipeline using the following command:
 make -Bnd | make2graph | dot -Tpng -o graphical-view-of-my-pipeline.png
 ```
 
+## The graphical view of my pipeline
+
+![](graphical-view-of-my-pipeline.png)
+
 ## Links
 **Five R scripts**
 
@@ -57,7 +61,3 @@ make -Bnd | make2graph | dot -Tpng -o graphical-view-of-my-pipeline.png
 - [Asia](Asia.png)
 - [Europe](Europe.png)
 - [Oceania](Oceania.png)
-
-**The graphical view of my pipeline**
-
-[](graphical-view-of-my-pipeline.png)
