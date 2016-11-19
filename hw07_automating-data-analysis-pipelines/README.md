@@ -1,5 +1,5 @@
 ## Prerequisites
-You should have installed the make and makefile2graph.
+You should have installed the [make](http://www.gnu.org/software/make/manual/make.html) and [makefile2graph](https://github.com/lindenb/makefile2graph).
 
 ## Steps
 To Run the data anlaysis pipeline, you should take the following steps:
