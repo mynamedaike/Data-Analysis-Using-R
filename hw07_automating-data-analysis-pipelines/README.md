@@ -37,7 +37,7 @@ make -Bnd | make2graph | dot -Tpng -o graphical-view-of-my-pipeline.png
 4. [03_generate-figures.R](03_generate-figures.R)
 5. [04_report.R](04_report.R)
 
-[**The raw gapminder data**](gapminder.tsv)
+[The raw gapminder data](gapminder.tsv)
 
 [**The reordered gapminder data**](gap_reordered.csv)
 
