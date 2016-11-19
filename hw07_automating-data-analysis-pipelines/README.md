@@ -35,36 +35,28 @@ make -Bnd | make2graph | dot -Tpng -o graphical-view-of-my-pipeline.png
 
 [**The raw gapminder data**](gapminder.tsv)
 
-**The reordered gapminder data**
-
-[gap_reordered.csv](gap_reordered.csv)
+[**The reordered gapminder data**](gap_reordered.csv)
 
 **Figures of exploratory analyses**
 
-[The median life expectancy for each continent on years](lifeExp_continent.png)
-[The weighted mean of GDP per capita on population for each continent on years](gdpPercap_continent.png)
-[The distribution of the population for each continent on years](pop_continent.png)
-[The life expectancy with GDP per capita for each continent](lifeExp_gdpPercap.png)
+- [The median life expectancy for each continent on years](lifeExp_continent.png)
+- [The weighted mean of GDP per capita on population for each continent on years](gdpPercap_continent.png)
+- [The distribution of the population for each continent on years](pop_continent.png)
+- [The life expectancy with GDP per capita for each continent](lifeExp_gdpPercap.png)
 
-**The linear regression results**
+[**The linear regression results**](fit_result.csv)
 
-[](fit_result.csv)
+[**The best fitted countries**](best_countries.csv)
 
-**The best fitted countries**
-
-[](best_countries.csv)
-
-**The worst fitted countries**
-
-[](worst_countries.csv)
+[**The worst fitted countries**](worst_countries.csv)
 
 **Figures of the 4 best fitted countries for each continent**
 
-[Africa](Africa.png)
-[Americas](Americas.png)
-[Asia](Asia.png)
-[Europe](Europe.png)
-[Oceania](Oceania.png)
+- [Africa](Africa.png)
+- [Americas](Americas.png)
+- [Asia](Asia.png)
+- [Europe](Europe.png)
+- [Oceania](Oceania.png)
 
 **The graphical view of my pipeline**
 
