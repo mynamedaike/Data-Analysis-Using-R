@@ -35,6 +35,10 @@ Graphical view of my pipeline
 Download the gapminder data
 ---------------------------
 
+``` r
+read_chunk('00_download-the-data.R')
+```
+
 Perform exploratory analyses
 ----------------------------
 

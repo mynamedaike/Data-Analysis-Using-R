@@ -25,7 +25,7 @@ library(forcats)
 
 ## Download the gapminder data
 
-```{r set-options, echo=FALSE, cache=FALSE}
+```{r set-options, cache=FALSE}
 read_chunk('00_download-the-data.R')
 ```
 
