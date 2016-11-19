@@ -46,7 +46,8 @@ body {
 <span class="kw">library</span>(downloader)</code></pre></div>
 <h2 id="graphical-view-of-my-pipeline">Graphical view of my pipeline</h2>
 <h2 id="download-the-gapminder-data">Download the gapminder data</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">download.file</span>(<span class="st">&quot;https://raw.githubusercontent.com/jennybc/gapminder/master/inst/gapminder.tsv&quot;</span>, <span class="dt">destfile=</span><span class="st">&quot;gapminder.tsv&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download.file(&quot;https://raw.githubusercontent.com/jennybc/gapminder/master/inst/gapminder.tsv&quot;, destfile=&quot;gapminder.tsv&quot;)</span>
+<span class="kw">read_chunk</span>(<span class="st">'00_download-the-data.R'</span>)</code></pre></div>
 <h2 id="perform-exploratory-analyses">Perform exploratory analyses</h2>
 <p>I performed some exploratory analyses on the gapminder data including the variation of the life expectancy on years for each continent, the variation of the GDP per capita on years for each continent, etc. The R script is <a href="01_perform-exploratory-analyses.R"></a>. The figures are as follows:</p>
 <ol>

@@ -35,7 +35,8 @@ Download the gapminder data
 ---------------------------
 
 ``` r
-download.file("https://raw.githubusercontent.com/jennybc/gapminder/master/inst/gapminder.tsv", destfile="gapminder.tsv")
+# download.file("https://raw.githubusercontent.com/jennybc/gapminder/master/inst/gapminder.tsv", destfile="gapminder.tsv")
+read_chunk('00_download-the-data.R')
 ```
 
 Perform exploratory analyses
