@@ -17,6 +17,7 @@ library(gapminder)
 library(ggplot2)
 library(knitr)
 library(downloader)
+library(forcats)
 ```
 
 ## Graphical view of my pipeline
@@ -257,4 +258,4 @@ report.html: report.Rmd figures
 After I finished writing the five R scripts and this R markdown file, I automated the pipeline using make. The content of the Makefile is shown above.
 
 ## Report my process
-Before I started doing this homework, I knew little about pipline. The examples given by the homework page are really useful. I just followed these examples to get the ideas about how to pipeline my R scripts. The links provided are also helpful. I encountered an error that "pandoc version 1.12.3 or higher is required and was not found (see the help page ?rmarkdown::pandoc_available)" when I rendered a R markdown file using make. Fortunately, I fixed it by googling the solution. I just got the path of pandoc using Sys.setenv(RSTUDIO_PANDOC) and set the path of pandoc using Sys.setenv(RSTUDIO_PANDOC = <the path>). 
+Before I started doing this homework, I knew little about pipline. The examples given by the homework page are really useful. I just followed these examples to get the ideas about how to pipeline my R scripts. The links provided are also helpful. I encountered an error that "pandoc version 1.12.3 or higher is required and was not found (see the help page ?rmarkdown::pandoc_available)" when I rendered a R markdown file using make. Fortunately, I fixed it by googling the solution. I just got the path of pandoc using `Sys.setenv(RSTUDIO_PANDOC)` and set the path of pandoc using `Sys.setenv(RSTUDIO_PANDOC = the path)`. 
