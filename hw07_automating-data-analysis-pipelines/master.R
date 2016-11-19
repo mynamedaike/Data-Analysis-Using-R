@@ -1,0 +1,5 @@
+source("00_download-the-data.R")
+source("01_perform-exploratory-analyses.R")
+source("02_perform-statistical-analyses.R")
+source("03_generate-figures.R")
+source("04_report.R")

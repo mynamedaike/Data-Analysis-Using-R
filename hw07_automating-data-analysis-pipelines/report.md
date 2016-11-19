@@ -8,21 +8,17 @@ Loading packages
 
 ``` r
 library(dplyr)
+library(gapminder)
 ```
 
     ## 
-    ## Attaching package: 'dplyr'
+    ## 载入程辑包：'gapminder'
 
-    ## The following objects are masked from 'package:stats':
+    ## The following object is masked _by_ '.GlobalEnv':
     ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
+    ##     gapminder
 
 ``` r
-library(gapminder)
 library(ggplot2)
 library(knitr)
 library(downloader)
@@ -36,7 +32,7 @@ Download the gapminder data
 ---------------------------
 
 ``` r
-read_chunk('00_download-the-data.R')
+download.file("https://raw.githubusercontent.com/jennybc/gapminder/master/inst/gapminder.tsv", destfile="gapminder.tsv")
 ```
 
 Perform exploratory analyses

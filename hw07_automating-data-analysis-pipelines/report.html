@@ -29,25 +29,21 @@ body {
 <p>Ke Dai<br />
 2016年11月18日</p>
 <h2 id="loading-packages">Loading packages</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+<span class="kw">library</span>(gapminder)</code></pre></div>
 <pre><code>## 
-## Attaching package: 'dplyr'
+## 载入程辑包：'gapminder'
 
-## The following objects are masked from 'package:stats':
+## The following object is masked _by_ '.GlobalEnv':
 ## 
-##     filter, lag
-
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(gapminder)
-<span class="kw">library</span>(ggplot2)
+##     gapminder</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
 <span class="kw">library</span>(knitr)
 <span class="kw">library</span>(downloader)
 <span class="kw">library</span>(forcats)</code></pre></div>
 <h2 id="graphical-view-of-my-pipeline">Graphical view of my pipeline</h2>
 <h2 id="download-the-gapminder-data">Download the gapminder data</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_chunk</span>(<span class="st">'00_download-the-data.R'</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">download.file</span>(<span class="st">&quot;https://raw.githubusercontent.com/jennybc/gapminder/master/inst/gapminder.tsv&quot;</span>, <span class="dt">destfile=</span><span class="st">&quot;gapminder.tsv&quot;</span>)</code></pre></div>
 <h2 id="perform-exploratory-analyses">Perform exploratory analyses</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## load the gapminder data frame
 gapminder &lt;-<span class="st"> </span><span class="kw">read.delim</span>(<span class="st">&quot;gapminder.tsv&quot;</span>)
