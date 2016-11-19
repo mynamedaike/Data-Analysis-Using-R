@@ -313,4 +313,13 @@ After I finished writing the five R scripts and this R markdown file, I automate
 Report my process
 -----------------
 
-Before I started doing this homework, I knew little about pipline. The examples given by the homework page are really useful. I just followed these examples to get the ideas about how to pipeline my R scripts. The links provided are also helpful. I encountered an error that "pandoc version 1.12.3 or higher is required and was not found (see the help page ?rmarkdown::pandoc\_available)" when I rendered a R markdown file using make. Fortunately, I fixed it by googling the solution. I just got the path of pandoc using `Sys.setenv(RSTUDIO_PANDOC)` and set the path of pandoc using `Sys.setenv(RSTUDIO_PANDOC = the path)`.
+Before I started doing this homework, I knew little about pipline. The examples given by the homework page are really useful. I just followed these examples to get the ideas about how to pipeline my R scripts. The links provided are also helpful. I encountered an error that "pandoc version 1.12.3 or higher is required and was not found (see the help page ?rmarkdown::pandoc\_available)" when I rendered a R markdown file using make. Fortunately, I fixed it by googling the solution. I just got the path of pandoc using `*Sys.setenv(RSTUDIO_PANDOC)*` and set the path of pandoc using `*Sys.setenv(RSTUDIO_PANDOC = the path)*`.
+
+Some usefult links
+------------------
+
+-   [An example of a data analysis pipeline using Make](https://github.com/sjackman/makefile-example/)
+-   [Automating Data Analysis Pipelines](http://sjackman.ca/makefile-slides/#/automating-data-analysis-pipelines)
+-   [An introduction to Make](http://kbroman.org/minimal_make/)
+-   [makefile2graph](https://github.com/lindenb/makefile2graph)
+-   [Homebrew](http://brew.sh)

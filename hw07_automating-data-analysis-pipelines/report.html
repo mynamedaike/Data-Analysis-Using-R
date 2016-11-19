@@ -255,7 +255,15 @@ report.html: report.Rmd figures
     Rscript 04_report.R</code></pre>
 <p>After I finished writing the five R scripts and this R markdown file, I automated the pipeline using make. The content of the Makefile is shown above.</p>
 <h2 id="report-my-process">Report my process</h2>
-<p>Before I started doing this homework, I knew little about pipline. The examples given by the homework page are really useful. I just followed these examples to get the ideas about how to pipeline my R scripts. The links provided are also helpful. I encountered an error that &quot;pandoc version 1.12.3 or higher is required and was not found (see the help page ?rmarkdown::pandoc_available)&quot; when I rendered a R markdown file using make. Fortunately, I fixed it by googling the solution. I just got the path of pandoc using <code>Sys.setenv(RSTUDIO_PANDOC)</code> and set the path of pandoc using <code>Sys.setenv(RSTUDIO_PANDOC = the path)</code>.</p>
+<p>Before I started doing this homework, I knew little about pipline. The examples given by the homework page are really useful. I just followed these examples to get the ideas about how to pipeline my R scripts. The links provided are also helpful. I encountered an error that &quot;pandoc version 1.12.3 or higher is required and was not found (see the help page ?rmarkdown::pandoc_available)&quot; when I rendered a R markdown file using make. Fortunately, I fixed it by googling the solution. I just got the path of pandoc using <code>*Sys.setenv(RSTUDIO_PANDOC)*</code> and set the path of pandoc using <code>*Sys.setenv(RSTUDIO_PANDOC = the path)*</code>.</p>
+<h2 id="some-usefult-links">Some usefult links</h2>
+<ul>
+<li><a href="https://github.com/sjackman/makefile-example/">An example of a data analysis pipeline using Make</a></li>
+<li><a href="http://sjackman.ca/makefile-slides/#/automating-data-analysis-pipelines">Automating Data Analysis Pipelines</a></li>
+<li><a href="http://kbroman.org/minimal_make/">An introduction to Make</a></li>
+<li><a href="https://github.com/lindenb/makefile2graph">makefile2graph</a></li>
+<li><a href="http://brew.sh">Homebrew</a></li>
+</ul>
 
 </body>
 </html>
