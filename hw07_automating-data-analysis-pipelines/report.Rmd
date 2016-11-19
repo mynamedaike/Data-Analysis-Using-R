@@ -13,15 +13,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(dplyr)
-library(gapminder)
 library(ggplot2)
 library(knitr)
 library(downloader)
 library(forcats)
 ```
-
-## Graphical view of my pipeline
-
 
 ## Download the gapminder data
 

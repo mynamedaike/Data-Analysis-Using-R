@@ -8,25 +8,11 @@ Loading packages
 
 ``` r
 library(dplyr)
-library(gapminder)
-```
-
-    ## 
-    ## 载入程辑包：'gapminder'
-
-    ## The following object is masked _by_ '.GlobalEnv':
-    ## 
-    ##     gapminder
-
-``` r
 library(ggplot2)
 library(knitr)
 library(downloader)
 library(forcats)
 ```
-
-Graphical view of my pipeline
------------------------------
 
 Download the gapminder data
 ---------------------------
