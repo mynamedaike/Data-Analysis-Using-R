@@ -37,3 +37,4 @@ Initially, when I tried to create a project by version control, it does not work
 - [Homework 05](hw05_factor-and-figure-management.md)
 - [Homework 06](hw06_data-wrangling-conclusion.md)
 - [Homework 07](hw07_automating-data-analysis-pipelines)
+- [Homework 08](hw08_Building-Shiny-apps)
