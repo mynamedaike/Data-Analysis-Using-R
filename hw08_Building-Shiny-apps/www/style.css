@@ -1,0 +1,59 @@
+/*.col-sm-4{
+  width: 40%;
+}*/
+
+/*.col-sm-8{
+  width: 60%;
+}*/
+
+/*#typeInput{
+  word-wrap: break-word;  
+  word-break: normal;
+  display: block;
+  width: 100%;
+}*/
+
+.clear{
+  clear:both;
+  height:15px;
+}
+
+/*.shiny-options-group{
+  word-wrap: break-word;  
+  word-break: normal;
+  display: block;
+  width: 100%;
+}*/
+
+/*#subtypeOutput{
+  word-wrap: break-word;  
+  word-break: normal;  
+  display: block;
+  margin-bottom: 5px;
+  width: 100%;
+}*/
+
+#typeInput .checkbox > label{
+  float: left;
+  margin-right: 5%;
+}
+
+#subtypeInput .checkbox > label{
+  float: left;
+  width: 45%;
+  margin-right: 5%;
+}
+
+.row{
+  margin: 40px auto;
+}
+
+.results{
+  margin: 0 0 20px 0;
+  font:bold 20px/30px arial,sans-serif;;
+}
+
+.textContainer{
+  float: left;
+  margin-right: 20px;
+}
