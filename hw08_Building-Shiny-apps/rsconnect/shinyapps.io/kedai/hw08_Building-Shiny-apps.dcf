@@ -3,8 +3,9 @@ title:
 account: kedai
 server: shinyapps.io
 appId: 139757
-bundleId: 623991
+bundleId: 626444
 url: https://kedai.shinyapps.io/hw08_Building-Shiny-apps/
-when: 1479939926.26795
+when: 1480221775.32976
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: README.md
