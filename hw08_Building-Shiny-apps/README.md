@@ -21,7 +21,7 @@ New Features I implemented
 
 The link to the URL where the app is hosted
 -------------------------------------------
-I have deployed this Shiny app on both shinyapps.io and my own Shiny Server. So you can access it at https://kedai.shinyapps.io/hw08_Building-Shiny-apps/ or .
+I have deployed this Shiny app on both shinyapps.io and my own Shiny Server. So you can access it at https://kedai.shinyapps.io/hw08_Building-Shiny-apps/ or http://shiny.stat.ubc.ca/ke.dai/hw08_Building-Shiny-apps/.
 
 Report my process
 -----------------

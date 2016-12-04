@@ -50,6 +50,15 @@ make -Bnd | make2graph | dot -Tpng -o graphical-view-of-my-pipeline.png
 - [03_generate-figures.R](03_generate-figures.R)
 - [04_report.R](04_report.R)
 
+**Master script and cleaning script**
+
+- [Master script](master.R)
+- [Cleaning script](cleaning.R)
+
+**Makefile**
+
+- [Makefile](Makefile)
+
 **Data**
 
 - [The raw gapminder data](gapminder.tsv)
