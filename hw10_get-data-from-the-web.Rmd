@@ -1,0 +1,62 @@
+---
+title: 'Homework 10: Get data from the web'
+author: "Ke Dai"
+date: "2016年12月6日"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Import data and tools
+```{r}
+library(gapminder)
+library(countrycode)
+library(geonames)
+library(ggplot2)
+library(dplyr)
+library(knitr)
+options(geonamesUsername = "ke_dai")
+```
+
+## Use an R package that wraps an API
+Combine gapminder and data from geonames. Install the geonames package (on CRAN, on GitHub). Make a user account and use geonames to access data about the world’s countries. Use data from geonames and gapminder to investigate the population density against time.
+```{r}
+## change country variable in gapminder to countryCode variable
+gapminderCode <- gapminder %>% 
+  mutate(countryCode = countrycode(country, "country.name", "iso2c"))
+
+## get countryInfo data
+countryInfo <- GNcountryInfo()
+
+## select countryCode and areaInSqKm variables from countryInfo
+countryArea <- countryInfo %>% 
+  select(countryCode, area = areaInSqKm) %>% 
+  mutate(area = as.double(area))
+
+kable(countryArea[1:20, ])
+
+## left join gapminderCode with countryPos
+gapminderArea <- gapminderCode %>% 
+  left_join(countryArea, by = "countryCode")
+
+kable(gapminderArea[1:20, ])
+
+## calculate the population density
+gapminderPopDensity <- gapminderArea %>% 
+  mutate(popDensity = pop/area) %>% 
+  select(-area)
+
+kable(gapminderPopDensity[1:20, ])
+ 
+## plot the graph of population density agianst time
+ggplot(subset(gapminderPopDensity, continent != "Oceania"),
+       aes(x = year, y = popDensity, group = country, color = country)) +
+  geom_line(lwd = 1, show.legend = FALSE) + facet_wrap(~ continent) +
+  scale_color_manual(values = country_colors) + theme_bw() +
+  theme(strip.text = element_text(size = rel(1.1))) + scale_y_log10()
+```
+
+## Report my process
+For this homework, I explored getting data from the internet into R using an R package that wraps an API. It's not very difficult for me as I have tried combining gapminder and data from geonames in Homework 04. Congratuations! I have finished all of ten assignments. I learned a lot from this course. I appreciate Jennifer's and all the TAs' effort on this course. Finally, hope everyone have a good vacation.
