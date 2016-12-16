@@ -15,10 +15,73 @@ library(gapminder)
 library(countrycode)
 library(geonames)
 library(ggplot2)
-library(dplyr)
+library(tidyverse)
+library(stringr)
 library(knitr)
+library(httr)
+library(purrr)
 options(geonamesUsername = "ke_dai")
 ```
+
+## Make API queries “by hand” using httr
+Get 7 day weather forecast for Vancouver from OpenWeatherMap.
+```{r}
+## Get the raw data
+response <- GET('api.openweathermap.org/data/2.5/forecast/daily?q=Vancouver&units=metric&cnt=7&APPID=2aa01b3164554605bbc8a44a976ae76a')
+status_code(response)
+headers(response)[["content-type"]]
+rawData <- content(response, type = "application/json")
+str(rawData, max.level = 3)
+
+## Transfrom the raw data into a data frame
+weatherVancouver <- tibble(
+  temp = rawData$list %>% map("temp"),
+  pressure = rawData$list %>% map_chr("pressure"),
+  humidity = rawData$list %>% map_chr("humidity"),
+  windSpeed = rawData$list %>% map_chr("speed"),
+  windDeg = rawData$list %>% map_chr("deg")
+)
+
+kable(weatherVancouver)
+
+## Turn the nested data frame into a regular one
+weatherVancouver <- weatherVancouver %>% 
+  mutate(
+    day = map(temp, "day"),
+    night = map(temp, "night")
+  ) %>% 
+  select(-temp) %>% 
+  unnest()
+
+kable(weatherVancouver)
+
+## create a date tibble
+date <- tibble(date = str_c("12.", 15:21))
+date
+
+## combine date with weatherVancouver
+weatherVancouver <- cbind(date, weatherVancouver)
+kable(weatherVancouver)
+
+## gather weatherVanvouer
+weatherVancouver <- weatherVancouver %>% 
+  gather(`day`, `night`, key = "duration", value = "temp")
+
+kable(weatherVancouver)
+
+## plot the variation of day and night temperature 
+weatherVancouver %>% 
+  ggplot(aes(x = date, y = temp, color = duration)) +
+  geom_point() +
+  labs(title = "The day and night temperature forecast for Vancouver in the next 7 days", x = "Date", y = "Temperature")
+
+## plot the variation of pressure
+weatherVancouver %>% 
+  ggplot(aes(x = date, y = pressure)) +
+  geom_bar(stat = "identity", fill = "red") +
+  labs(title = "The pressure forecast for Vancouver in the next 7 days", x = "Date", y = "Pressure")
+```
+
 
 ## Use an R package that wraps an API
 Combine gapminder and data from geonames. Install the geonames package (on CRAN, on GitHub). Make a user account and use geonames to access data about the world’s countries. Use data from geonames and gapminder to investigate the population density against time.
