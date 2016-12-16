@@ -56,7 +56,7 @@ weatherVancouver <- weatherVancouver %>%
 kable(weatherVancouver)
 
 ## create a date tibble
-date <- tibble(date = str_c("12.", 15:21))
+date <- tibble(date = str_c("12.", 16:22))
 date
 
 ## combine date with weatherVancouver
